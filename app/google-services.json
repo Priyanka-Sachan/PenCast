@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "965492566912",
+    "firebase_url": "https://pencast-1163e.firebaseio.com",
+    "project_id": "pencast-1163e",
+    "storage_bucket": "pencast-1163e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965492566912:android:590a04332dc0a89dfc2f65",
+        "android_client_info": {
+          "package_name": "com.example.pencast"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965492566912-5d6oj7ienpqkssmfcagarn0gfdu4ofei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzlY4wQ-NQm_HtLUF4DJ-2d2St5tb_DCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965492566912-5d6oj7ienpqkssmfcagarn0gfdu4ofei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
