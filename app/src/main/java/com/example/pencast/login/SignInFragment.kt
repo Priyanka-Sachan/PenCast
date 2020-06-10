@@ -41,6 +41,10 @@ class SignInFragment : Fragment() {
     private fun signInUser() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(activity, "Please enter all fields.", Toast.LENGTH_SHORT).show()
+            return
+        }
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (!it.isSuccessful)

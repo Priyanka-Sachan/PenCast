@@ -44,6 +44,10 @@ class SignUpFragment : Fragment() {
         val userName = userNameEditText.text.toString()
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
+        if (userName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(activity, "Please enter all fields.", Toast.LENGTH_SHORT).show()
+            return
+        }
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (!it.isSuccessful)
