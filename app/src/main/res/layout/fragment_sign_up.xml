@@ -7,13 +7,24 @@
     android:layout_margin="16dp"
     tools:context=".login.SignUpFragment">
 
+    <Button
+        android:id="@+id/sign_up_profile"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/circle_foreground"
+        android:text="SELECT PHOTO"
+        android:textColor="@android:color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_username_layout"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/sign_up_username_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/sign_up_email_layout"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/sign_up_profile"
+        app:layout_constraintBottom_toTopOf="@id/sign_up_email_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sign_up_username"
