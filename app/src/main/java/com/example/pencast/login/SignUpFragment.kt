@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.pencast.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import java.util.*
@@ -81,7 +82,7 @@ class SignUpFragment : Fragment() {
                         val bitmap = ImageDecoder.decodeBitmap(source)
                         signUpProfile.background = BitmapDrawable(context?.resources, bitmap)
                     }
-                    signUpProfile.text=""
+                    signUpProfile.text = ""
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -90,7 +91,6 @@ class SignUpFragment : Fragment() {
     }
 
     private fun signUpUser() {
-        uploadProfileImage()
         val userName = userNameEditText.text.toString()
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
@@ -107,6 +107,7 @@ class SignUpFragment : Fragment() {
                         "SignUpFragment",
                         "User created successfully: ${it.result?.user?.uid}"
                     )
+                uploadProfileImage()
             }
             .addOnFailureListener {
                 Toast.makeText(
@@ -118,15 +119,25 @@ class SignUpFragment : Fragment() {
     }
 
     private fun uploadProfileImage() {
-        if (selectedPhotoUri == null)
-            return
-        val filename = UUID.randomUUID().toString()
-        val storage = FirebaseStorage.getInstance().getReference("/profileImages/$filename")
-        storage.putFile(selectedPhotoUri!!)
-            .addOnSuccessListener {
-                storage.downloadUrl.addOnSuccessListener {
-                    Log.d("SignUpFragment", "Location : $it")
+        var imageUrl =
+            "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com/o/profileImages%2FdeaultProfile.png"
+        if (selectedPhotoUri != null) {
+            val filename = UUID.randomUUID().toString()
+            val storage = FirebaseStorage.getInstance().getReference("/profileImages/$filename")
+            storage.putFile(selectedPhotoUri!!)
+                .addOnSuccessListener {
+                    storage.downloadUrl.addOnSuccessListener {
+                        imageUrl = it.toString()
+                        addUserToDatabase(it.toString())
+                    }
                 }
-            }
+        } else
+            addUserToDatabase(imageUrl)
+    }
+
+    private fun addUserToDatabase(imageUrl: String) {
+        val uid = FirebaseAuth.getInstance().uid.toString()
+        val database = FirebaseDatabase.getInstance().getReference("/Users/$uid")
+        database.setValue(User(uid, userNameEditText.text.toString(), imageUrl))
     }
 }
