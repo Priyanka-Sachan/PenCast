@@ -13,53 +13,47 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.pencast.R
+import com.example.pencast.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.fragment_sign_up.*
 import java.util.*
 
 class SignUpFragment : Fragment() {
+
+    lateinit var binding: FragmentSignUpBinding
 
     private val IMAGE_PICKER_REQUEST_CODE = 1
 
     var selectedPhotoUri: Uri? = null
 
-    lateinit var signUpProfile: Button
-    lateinit var userNameEditText: EditText
-    lateinit var emailEditText: EditText
-    lateinit var passwordEditText: EditText
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_sign_up, container, false)
-        val signInAction: TextView = view.findViewById(R.id.action_sign_in)
-        signUpProfile = view.findViewById(R.id.sign_up_profile)
-        userNameEditText = view.findViewById(R.id.sign_up_username)
-        emailEditText = view.findViewById(R.id.sign_up_email)
-        passwordEditText = view.findViewById(R.id.sign_up_password)
-        val signUpButton: Button = view.findViewById(R.id.sign_up_button)
-        signUpButton.setOnClickListener {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_sign_up,
+            container,
+            false
+        )
+        binding.signUpButton.setOnClickListener {
             signUpUser()
         }
-        signInAction.setOnClickListener {
+        binding.actionSignIn.setOnClickListener {
             findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         }
-        signUpProfile.setOnClickListener {
+        binding.signUpProfile.setOnClickListener {
             val imagePickerIntent = Intent(Intent.ACTION_PICK)
             imagePickerIntent.type = "image/*"
             startActivityForResult(imagePickerIntent, IMAGE_PICKER_REQUEST_CODE)
         }
         // Inflate the layout for this fragment
-        return view
+        return binding.root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -73,16 +67,18 @@ class SignUpFragment : Fragment() {
                             activity?.contentResolver,
                             selectedPhotoUri
                         )
-                        signUpProfile.background = BitmapDrawable(context?.resources, bitmap)
+                        binding.signUpProfile.background =
+                            BitmapDrawable(context?.resources, bitmap)
                     } else {
                         val source = ImageDecoder.createSource(
                             requireActivity().contentResolver,
                             selectedPhotoUri!!
                         )
                         val bitmap = ImageDecoder.decodeBitmap(source)
-                        signUpProfile.background = BitmapDrawable(context?.resources, bitmap)
+                        binding.signUpProfile.background =
+                            BitmapDrawable(context?.resources, bitmap)
                     }
-                    signUpProfile.text = ""
+                    binding.signUpProfile.text = ""
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -91,9 +87,9 @@ class SignUpFragment : Fragment() {
     }
 
     private fun signUpUser() {
-        val userName = userNameEditText.text.toString()
-        val email = emailEditText.text.toString()
-        val password = passwordEditText.text.toString()
+        val userName = binding.signUpUsername.text.toString()
+        val email = binding.signUpEmail.text.toString()
+        val password = binding.signUpPassword.text.toString()
         if (userName.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(activity, "Please enter all fields.", Toast.LENGTH_SHORT).show()
             return
@@ -138,6 +134,6 @@ class SignUpFragment : Fragment() {
     private fun addUserToDatabase(imageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid.toString()
         val database = FirebaseDatabase.getInstance().getReference("/Users/$uid")
-        database.setValue(User(uid, userNameEditText.text.toString(), imageUrl))
+        database.setValue(User(uid, binding.signUpUsername.text.toString(), imageUrl))
     }
 }
