@@ -18,8 +18,21 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.pencast.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_conversations"
+        android:name="com.example.pencast.ui.conversation.ConversationsFragment"
+        android:label="@string/title_conversations"
+        tools:layout="@layout/fragment_conversations" >
+        <action
+            android:id="@+id/action_navigation_conversations_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.example.pencast.ui.friend.FriendsFragment"
+        android:label="Friends"
+        tools:layout="@layout/fragment_friends" >
+        <action
+            android:id="@+id/action_friendsFragment_to_navigation_conversations"
+            app:destination="@id/navigation_conversations" />
+    </fragment>
 </navigation>

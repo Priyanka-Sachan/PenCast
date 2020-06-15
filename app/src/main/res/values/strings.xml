@@ -2,7 +2,6 @@
     <string name="app_name">PenCast</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_conversations">Conversations</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

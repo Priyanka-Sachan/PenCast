@@ -55,6 +55,14 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
 
+    //Recycler View
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    // For control over item selection of both touch and mouse driven selection
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc01"
+
+    //Library for image loader
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+
     //Firebase-Analytics
     implementation 'com.google.firebase:firebase-analytics:17.4.3'
 
@@ -67,4 +75,5 @@ dependencies {
 
     //Realtime Database
     implementation 'com.google.firebase:firebase-database:19.3.1'
+
 }
