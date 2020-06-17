@@ -18,21 +18,39 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_conversations"
-        android:name="com.example.pencast.ui.conversation.ConversationsFragment"
-        android:label="@string/title_conversations"
-        tools:layout="@layout/fragment_conversations" >
+        android:id="@+id/navigation_chat_list"
+        android:name="com.example.pencast.ui.chatList.ChatListFragment"
+        android:label="@string/title_chats"
+        tools:layout="@layout/fragment_chat_list" >
         <action
-            android:id="@+id/action_navigation_conversations_to_friendsFragment"
-            app:destination="@id/friendsFragment" />
+            android:id="@+id/action_navigation_chat_list_to_navigation_chat"
+            app:destination="@id/navigation_chat" />
+        <action
+            android:id="@+id/action_navigation_chat_list_to_navigation_friends"
+            app:destination="@id/navigation_friends" />
     </fragment>
     <fragment
-        android:id="@+id/friendsFragment"
+        android:id="@+id/navigation_chat"
+        android:name="com.example.pencast.ui.chat.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_navigation_chat_to_navigation_chat_list"
+            app:destination="@id/navigation_chat_list" />
+<!--        <argument-->
+<!--            android:name="friend"-->
+<!--            app:argType="com.example.pencast.ui.friend" />-->
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_friends"
         android:name="com.example.pencast.ui.friend.FriendsFragment"
         android:label="Friends"
         tools:layout="@layout/fragment_friends" >
         <action
-            android:id="@+id/action_friendsFragment_to_navigation_conversations"
-            app:destination="@id/navigation_conversations" />
+            android:id="@+id/action_navigation_friends_to_navigation_chat"
+            app:destination="@id/navigation_chat" />
+        <action
+            android:id="@+id/action_navigation_friends_to_navigation_chat_list"
+            app:destination="@id/navigation_chat_list" />
     </fragment>
 </navigation>

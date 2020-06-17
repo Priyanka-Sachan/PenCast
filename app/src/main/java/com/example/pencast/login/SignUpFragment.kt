@@ -46,7 +46,7 @@ class SignUpFragment : Fragment() {
             signUpUser()
         }
         binding.actionSignIn.setOnClickListener {
-            findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
+            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToSignInFragment())
         }
         binding.signUpProfile.setOnClickListener {
             val imagePickerIntent = Intent(Intent.ACTION_PICK)

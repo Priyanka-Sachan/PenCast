@@ -33,7 +33,7 @@ class SignInFragment : Fragment() {
             signInUser()
         }
         binding.actionSignUp.setOnClickListener {
-            findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+            findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSignUpFragment())
         }
         // Inflate the layout for this fragment
         return binding.root
