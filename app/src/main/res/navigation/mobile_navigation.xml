@@ -37,9 +37,9 @@
         <action
             android:id="@+id/action_navigation_chat_to_navigation_chat_list"
             app:destination="@id/navigation_chat_list" />
-<!--        <argument-->
-<!--            android:name="friend"-->
-<!--            app:argType="com.example.pencast.ui.friend" />-->
+        <argument
+            android:name="friend"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/navigation_friends"

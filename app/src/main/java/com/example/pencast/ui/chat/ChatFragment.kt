@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.example.pencast.R
 
 class ChatFragment : Fragment() {
@@ -13,6 +14,8 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val args=ChatFragmentArgs.fromBundle(requireArguments())
+        (activity as AppCompatActivity).supportActionBar?.title = args.friend
         return inflater.inflate(R.layout.fragment_chat, container, false)
     }
 }

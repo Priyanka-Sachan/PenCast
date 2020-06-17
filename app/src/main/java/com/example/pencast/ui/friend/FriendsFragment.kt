@@ -1,22 +1,24 @@
 package com.example.pencast.ui.friend
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pencast.R
 import com.google.firebase.database.*
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+
 
 class FriendsFragment() : Fragment() {
 
     var childEventListener: ChildEventListener? = null
     private lateinit var friendRecyclerView: RecyclerView
-    lateinit var friendsAdapter: FriendsAdapter
+    private lateinit var friendsAdapter: GroupAdapter<GroupieViewHolder>
     lateinit var database: DatabaseReference
-    lateinit var friends: ArrayList<Friend>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +29,7 @@ class FriendsFragment() : Fragment() {
         database = FirebaseDatabase.getInstance().getReference("/Users")
 
         friendRecyclerView = view.findViewById(R.id.friends_recycler_view)
-        friendsAdapter = FriendsAdapter()
+        friendsAdapter = GroupAdapter<GroupieViewHolder>()
         friendRecyclerView.adapter = friendsAdapter
         attachDatabaseReadListener()
 
@@ -35,16 +37,22 @@ class FriendsFragment() : Fragment() {
     }
 
     private fun attachDatabaseReadListener() {
-        friends = ArrayList()
         if (childEventListener == null) {
             childEventListener = object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-
                     val friend: Friend? =
                         dataSnapshot.getValue(Friend::class.java)
-                    if (friend != null)
-                        friends.add(friend)
-                    friendsAdapter.submitList(friends)
+                    if (friend != null) {
+                        friendsAdapter.add(FriendItem(friend))
+                        friendsAdapter.setOnItemClickListener { item, view ->
+                            val userItem = item as FriendItem
+                            findNavController(this@FriendsFragment).navigate(
+                                FriendsFragmentDirections.actionNavigationFriendsToNavigationChat(
+                                    userItem.friend.username
+                                )
+                            )
+                        }
+                    }
                 }
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}
