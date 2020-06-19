@@ -11,8 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/holo_green_light"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/chat_message"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/card_chat_from"/>
 
     <EditText
         android:id="@+id/chat_message"

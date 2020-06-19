@@ -39,7 +39,7 @@
             app:destination="@id/navigation_chat_list" />
         <argument
             android:name="friend"
-            app:argType="string" />
+            app:argType="com.example.pencast.ui.friend.Friend" />
     </fragment>
     <fragment
         android:id="@+id/navigation_friends"

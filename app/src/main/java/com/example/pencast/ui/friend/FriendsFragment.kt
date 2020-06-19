@@ -48,7 +48,7 @@ class FriendsFragment() : Fragment() {
                             val userItem = item as FriendItem
                             findNavController(this@FriendsFragment).navigate(
                                 FriendsFragmentDirections.actionNavigationFriendsToNavigationChat(
-                                    userItem.friend.username
+                                    userItem.friend
                                 )
                             )
                         }
