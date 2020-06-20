@@ -1,3 +1,5 @@
 package com.example.pencast.ui.chat
 
-data class Chat(var profileImage: String,var message: String)
+data class Chat(var message: String,var timeStamp:Long){
+    constructor():this("",0)
+}

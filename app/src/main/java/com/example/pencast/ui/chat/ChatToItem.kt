@@ -15,8 +15,9 @@ class ChatToItem(val chat: Chat) : Item<GroupieViewHolder>() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.message_to.text=chat.message
-        Glide.with(viewHolder.itemView.image_to.context)
-            .load(chat.profileImage)
-            .into(viewHolder.itemView.image_to)
+//        Glide.with(viewHolder.itemView.image_to.context)
+//            .load(chat.profileImage)
+//            .into(viewHolder.itemView.image_to)
+        viewHolder.itemView.send_time.text= chat.timeStamp.toString()
     }
 }
