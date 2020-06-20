@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -45,7 +46,7 @@ class ChatFragment : Fragment() {
         senderDatabase = FirebaseDatabase.getInstance().getReference("/Messages/$fromId/$toId")
         receiverDatabase = FirebaseDatabase.getInstance().getReference("/Messages/$toId/$fromId")
 
-        val sendMessage: Button = view.findViewById(R.id.send_button)
+        val sendMessage: ImageButton = view.findViewById(R.id.send_button)
 
         chatMessage = view.findViewById(R.id.chat_message)
         chatMessage.addTextChangedListener(object : TextWatcher {
@@ -53,6 +54,10 @@ class ChatFragment : Fragment() {
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 sendMessage.isEnabled = charSequence.toString().trim { it <= ' ' }.isNotEmpty()
+                if (sendMessage.isEnabled)
+                    sendMessage.setBackgroundResource(R.drawable.ic_circle_enabled)
+                else
+                    sendMessage.setBackgroundResource(R.drawable.ic_circle_not_enabled)
             }
 
             override fun afterTextChanged(editable: Editable) {}
@@ -74,7 +79,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessageToDatabase(message: String) {
-        val timeStamp = SystemClock.currentThreadTimeMillis()
+        val timeStamp = System.currentTimeMillis()
         //ProfileImage will be changed to uid.profileImage later on.
         val profileImage =
             "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a"

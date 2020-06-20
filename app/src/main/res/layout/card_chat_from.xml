@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/colorPrimary">
@@ -9,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_from"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_margin="4dp"
-            android:src="@mipmap/ic_launcher_round"
             android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher_round"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,20 +25,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:background="@android:color/white"
+            android:background="@drawable/rounded_card"
             android:maxWidth="200dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
             app:layout_constraintLeft_toRightOf="@id/image_from"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Your message" />
 
         <TextView
             android:id="@+id/recieve_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:background="@android:color/white"
             android:maxWidth="200dp"
+            android:padding="4dp"
+            android:textColor="@android:color/white"
+            app:layout_constraintLeft_toRightOf="@id/image_from"
             app:layout_constraintTop_toBottomOf="@id/message_from"
-            app:layout_constraintLeft_toRightOf="@id/image_from"/>
+            tools:text="At 09/07/2020 11:42:11" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

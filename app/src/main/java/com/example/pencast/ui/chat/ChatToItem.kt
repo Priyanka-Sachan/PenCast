@@ -7,6 +7,8 @@ import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.card_chat_from.view.*
 import kotlinx.android.synthetic.main.card_chat_to.view.*
 import kotlinx.android.synthetic.main.card_user.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ChatToItem(val chat: Chat) : Item<GroupieViewHolder>() {
     override fun getLayout(): Int {
@@ -18,6 +20,8 @@ class ChatToItem(val chat: Chat) : Item<GroupieViewHolder>() {
         Glide.with(viewHolder.itemView.image_to.context)
             .load(chat.proileImage)
             .into(viewHolder.itemView.image_to)
-        viewHolder.itemView.send_time.text = chat.timeStamp.toString()
+        val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH)
+        val dataString = formatter.format(Date(chat.timeStamp))
+        viewHolder.itemView.send_time.text = "At $dataString"
     }
 }

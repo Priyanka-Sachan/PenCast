@@ -79,7 +79,6 @@ class SignUpFragment : Fragment() {
                         binding.signUpProfile.background =
                             BitmapDrawable(context?.resources, bitmap)
                     }
-                    binding.signUpProfile.text = ""
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
