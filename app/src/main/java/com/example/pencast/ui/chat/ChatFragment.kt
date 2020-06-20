@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pencast.R
-import com.example.pencast.ui.friend.Friend
-import com.example.pencast.ui.friend.FriendItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
@@ -62,6 +60,7 @@ class ChatFragment : Fragment() {
 
         sendMessage.setOnClickListener {
             sendMessageToDatabase(chatMessage.text.toString())
+            chatMessage.setText("")
         }
 
         chatAdapter = GroupAdapter<GroupieViewHolder>()
@@ -75,9 +74,12 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessageToDatabase(message: String) {
-        val timeStamp=SystemClock.currentThreadTimeMillis()
+        val timeStamp = SystemClock.currentThreadTimeMillis()
+        //ProfileImage will be changed to uid.profileImage later on.
+        val profileImage =
+            "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a"
         val senderMessageObject = senderDatabase.child("$fromId&$toId@${timeStamp}")
-        senderMessageObject.setValue(Chat(message, timeStamp))
+        senderMessageObject.setValue(Chat(message, profileImage, timeStamp))
     }
 
     private fun attachSenderDatabaseReadListener() {

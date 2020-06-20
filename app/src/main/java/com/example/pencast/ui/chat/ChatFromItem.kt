@@ -14,10 +14,10 @@ class ChatFromItem(val chat: Chat) : Item<GroupieViewHolder>() {
     }
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        viewHolder.itemView.message_from.text=chat.message
-//        Glide.with(viewHolder.itemView.image_from.context)
-//            .load(chat.profileImage)
-//            .into(viewHolder.itemView.image_from)
-        viewHolder.itemView.recieve_time.text= chat.timeStamp.toString()
+        viewHolder.itemView.message_from.text = chat.message
+        Glide.with(viewHolder.itemView.image_from.context)
+            .load(chat.proileImage)
+            .into(viewHolder.itemView.image_from)
+        viewHolder.itemView.recieve_time.text = chat.timeStamp.toString()
     }
 }
