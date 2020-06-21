@@ -9,15 +9,24 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentChatListBinding
+import com.example.pencast.ui.friend.Friend
+import com.example.pencast.ui.friend.FriendItem
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 
 class ChatListFragment : Fragment() {
 
-    lateinit var binding:FragmentChatListBinding
+    var childEventListener: ChildEventListener? = null
+    private lateinit var chatListAdapter: GroupAdapter<GroupieViewHolder>
+    lateinit var database: DatabaseReference
+    lateinit var binding: FragmentChatListBinding
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
@@ -25,9 +34,39 @@ class ChatListFragment : Fragment() {
             container,
             false
         )
+
+        val uid=FirebaseAuth.getInstance().uid
+
         binding.newConversationButton.setOnClickListener {
             findNavController().navigate(ChatListFragmentDirections.actionNavigationChatListToNavigationFriends())
         }
+
+        database = FirebaseDatabase.getInstance().getReference("/Latest-Messages/$uid")
+
+        chatListAdapter = GroupAdapter<GroupieViewHolder>()
+        binding.chatListRecyclerView.adapter = chatListAdapter
+
+        attachDatabaseReadListener()
+
         return binding.root
+    }
+
+    private fun attachDatabaseReadListener() {
+        if (childEventListener == null) {
+            childEventListener = object : ChildEventListener {
+                override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
+                    val chatList: ChatList? =
+                        dataSnapshot.getValue(ChatList::class.java)
+                    if (chatList != null)
+                        chatListAdapter.add(ChatListItem(chatList))
+                }
+
+                override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}
+                override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
+                override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
+                override fun onCancelled(databaseError: DatabaseError) {}
+            }
+            database.addChildEventListener(childEventListener as ChildEventListener)
+        }
     }
 }

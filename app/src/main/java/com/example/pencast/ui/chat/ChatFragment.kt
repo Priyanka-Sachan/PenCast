@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pencast.R
+import com.example.pencast.ui.chatList.ChatList
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
@@ -27,6 +28,8 @@ class ChatFragment : Fragment() {
     lateinit var args: ChatFragmentArgs
     lateinit var senderDatabase: DatabaseReference
     lateinit var receiverDatabase: DatabaseReference
+    lateinit var latestSenderDatabase: DatabaseReference
+    lateinit var latestReceiverDatabase: DatabaseReference
     lateinit var chatMessage: EditText
 
     lateinit var toId: String
@@ -45,6 +48,8 @@ class ChatFragment : Fragment() {
         fromId = FirebaseAuth.getInstance().uid.toString()
         senderDatabase = FirebaseDatabase.getInstance().getReference("/Messages/$fromId/$toId")
         receiverDatabase = FirebaseDatabase.getInstance().getReference("/Messages/$toId/$fromId")
+        latestSenderDatabase = FirebaseDatabase.getInstance().getReference("/Latest-Messages/$fromId")
+        latestReceiverDatabase = FirebaseDatabase.getInstance().getReference("/Latest-Messages/$toId")
 
         val sendMessage: ImageButton = view.findViewById(R.id.send_button)
 
@@ -96,6 +101,10 @@ class ChatFragment : Fragment() {
                         dataSnapshot.getValue(Chat::class.java)
                     if (chat != null) {
                         chatAdapter.add(ChatToItem(chat))
+                        val latestSenderObject = latestSenderDatabase.child("$toId")
+                        latestSenderObject.setValue(ChatList(fromId,"When shared preference activated",args.friend.profileImage,chat.message,chat.timeStamp))
+                        val latestReceiverObject = latestSenderDatabase.child("$fromId")
+                        latestReceiverObject.setValue(ChatList(fromId,"When shared preference activated",args.friend.profileImage,chat.message,chat.timeStamp))
                     }
                 }
 

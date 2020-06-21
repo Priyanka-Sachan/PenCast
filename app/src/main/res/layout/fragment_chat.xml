@@ -21,7 +21,7 @@
         android:id="@+id/chat_message"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/rounded_card"
+        android:background="@drawable/rounded_card_less"
         android:hint="Enter your message"
         android:padding="4dp"
         android:paddingRight="0dp"
