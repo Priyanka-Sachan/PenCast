@@ -48,8 +48,10 @@ class ChatFragment : Fragment() {
         fromId = FirebaseAuth.getInstance().uid.toString()
         senderDatabase = FirebaseDatabase.getInstance().getReference("/Messages/$fromId/$toId")
         receiverDatabase = FirebaseDatabase.getInstance().getReference("/Messages/$toId/$fromId")
-        latestSenderDatabase = FirebaseDatabase.getInstance().getReference("/Latest-Messages/$fromId")
-        latestReceiverDatabase = FirebaseDatabase.getInstance().getReference("/Latest-Messages/$toId")
+        latestSenderDatabase =
+            FirebaseDatabase.getInstance().getReference("/Latest-Messages/$fromId")
+        latestReceiverDatabase =
+            FirebaseDatabase.getInstance().getReference("/Latest-Messages/$toId")
 
         val sendMessage: ImageButton = view.findViewById(R.id.send_button)
 
@@ -102,9 +104,24 @@ class ChatFragment : Fragment() {
                     if (chat != null) {
                         chatAdapter.add(ChatToItem(chat))
                         val latestSenderObject = latestSenderDatabase.child("$toId")
-                        latestSenderObject.setValue(ChatList(fromId,"When shared preference activated",args.friend.profileImage,chat.message,chat.timeStamp))
+                        latestSenderObject.setValue(
+                            ChatList(
+                                args.friend.uid,
+                                args.friend.username,
+                                args.friend.profileImage,
+                                chat.message,
+                                chat.timeStamp
+                            )
+                        )
                         val latestReceiverObject = latestSenderDatabase.child("$fromId")
-                        latestReceiverObject.setValue(ChatList(fromId,"When shared preference activated",args.friend.profileImage,chat.message,chat.timeStamp))
+                        //Here profile image and username will be changed later on.
+                        latestReceiverObject.setValue(
+                            ChatList(
+                                fromId, "When shared preference activated",
+                                "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a",
+                                chat.message, chat.timeStamp
+                            )
+                        )
                     }
                 }
 

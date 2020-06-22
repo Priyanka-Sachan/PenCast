@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentChatListBinding
 import com.example.pencast.ui.friend.Friend
 import com.example.pencast.ui.friend.FriendItem
+import com.example.pencast.ui.friend.FriendsFragmentDirections
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
@@ -35,7 +37,7 @@ class ChatListFragment : Fragment() {
             false
         )
 
-        val uid=FirebaseAuth.getInstance().uid
+        val uid = FirebaseAuth.getInstance().uid
 
         binding.newConversationButton.setOnClickListener {
             findNavController().navigate(ChatListFragmentDirections.actionNavigationChatListToNavigationFriends())
@@ -57,8 +59,21 @@ class ChatListFragment : Fragment() {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                     val chatList: ChatList? =
                         dataSnapshot.getValue(ChatList::class.java)
-                    if (chatList != null)
+                    if (chatList != null) {
                         chatListAdapter.add(ChatListItem(chatList))
+                        chatListAdapter.setOnItemClickListener { item, view ->
+                            val userItem = item as ChatListItem
+                            NavHostFragment.findNavController(this@ChatListFragment).navigate(
+                                ChatListFragmentDirections.actionNavigationChatListToNavigationChat(
+                                    Friend(
+                                        userItem.chatList.uid,
+                                        userItem.chatList.profileImage,
+                                        userItem.chatList.username
+                                    )
+                                )
+                            )
+                        }
+                    }
                 }
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}

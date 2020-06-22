@@ -5,8 +5,11 @@ import com.example.pencast.R
 import com.example.pencast.ui.friend.Friend
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
+import kotlinx.android.synthetic.main.card_chat_from.view.*
 import kotlinx.android.synthetic.main.card_chat_list.view.*
 import kotlinx.android.synthetic.main.card_user.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ChatListItem(val chatList: ChatList) : Item<GroupieViewHolder>() {
     override fun getLayout(): Int {
@@ -19,5 +22,8 @@ class ChatListItem(val chatList: ChatList) : Item<GroupieViewHolder>() {
         Glide.with(viewHolder.itemView.chat_list_profile_image.context)
             .load(chatList.profileImage)
             .into(viewHolder.itemView.chat_list_profile_image)
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+        val dataString = formatter.format(Date(chatList.timeStamp))
+        viewHolder.itemView.chat_list_timestamp.text = "At $dataString"
     }
 }
