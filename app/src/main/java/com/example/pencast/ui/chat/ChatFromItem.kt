@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.card_user.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ChatFromItem(val chat: Chat) : Item<GroupieViewHolder>() {
+class ChatFromItem(val chat: Chat, val profileImage: String) : Item<GroupieViewHolder>() {
     override fun getLayout(): Int {
         return R.layout.card_chat_from
     }
@@ -18,7 +18,7 @@ class ChatFromItem(val chat: Chat) : Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.message_from.text = chat.message
         Glide.with(viewHolder.itemView.image_from.context)
-            .load(chat.proileImage)
+            .load(profileImage)
             .into(viewHolder.itemView.image_from)
         val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH)
         val dataString = formatter.format(Date(chat.timeStamp))

@@ -21,10 +21,11 @@
         android:id="@+id/chat_message"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/rounded_card_less"
+        android:background="@drawable/rounded_card_half"
         android:hint="Enter your message"
         android:padding="4dp"
-        android:paddingRight="0dp"
+        android:paddingEnd="0dp"
+        android:paddingStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageButton
