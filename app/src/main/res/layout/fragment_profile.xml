@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:padding="16dp"
+    tools:context=".ui.profile.ProfileFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/auth_profile_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@id/auth_username"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:src="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/auth_username"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="4dp"
+        android:gravity="center"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@id/auth_status"
+        app:layout_constraintTop_toBottomOf="@id/auth_profile_image"
+        tools:text="Username" />
+
+    <EditText
+        android:id="@+id/auth_status"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/rounded_card_more"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/auth_username"
+        tools:text="Your Status" />
+
+    <ImageButton
+        android:id="@+id/auth_save_status"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/ic_circle_not_enabled"
+        android:enabled="false"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="@+id/auth_status"
+        app:layout_constraintRight_toRightOf="@id/auth_status"
+        app:layout_constraintTop_toTopOf="@id/auth_status" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

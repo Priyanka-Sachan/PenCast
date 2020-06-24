@@ -63,6 +63,10 @@ class MainActivity : AppCompatActivity() {
                 moveToLogin()
                 return true
             }
+            R.id.menu_my_profile -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.profileFragment)
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }

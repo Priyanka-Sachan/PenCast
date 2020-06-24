@@ -21,7 +21,7 @@
         android:id="@+id/navigation_chat_list"
         android:name="com.example.pencast.ui.chatList.ChatListFragment"
         android:label="@string/title_chats"
-        tools:layout="@layout/fragment_chat_list" >
+        tools:layout="@layout/fragment_chat_list">
         <action
             android:id="@+id/action_navigation_chat_list_to_navigation_chat"
             app:destination="@id/navigation_chat" />
@@ -33,7 +33,7 @@
         android:id="@+id/navigation_chat"
         android:name="com.example.pencast.ui.chat.ChatFragment"
         android:label="Chat"
-        tools:layout="@layout/fragment_chat" >
+        tools:layout="@layout/fragment_chat">
         <action
             android:id="@+id/action_navigation_chat_to_navigation_chat_list"
             app:destination="@id/navigation_chat_list" />
@@ -45,7 +45,7 @@
         android:id="@+id/navigation_friends"
         android:name="com.example.pencast.ui.friend.FriendsFragment"
         android:label="Friends"
-        tools:layout="@layout/fragment_friends" >
+        tools:layout="@layout/fragment_friends">
         <action
             android:id="@+id/action_navigation_friends_to_navigation_chat"
             app:destination="@id/navigation_chat" />
@@ -53,4 +53,9 @@
             android:id="@+id/action_navigation_friends_to_navigation_chat_list"
             app:destination="@id/navigation_chat_list" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.pencast.ui.profile.ProfileFragment"
+        android:label="My Profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
