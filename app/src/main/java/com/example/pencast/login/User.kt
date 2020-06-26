@@ -1,3 +1,10 @@
 package com.example.pencast.login
 
-data class User(var uid: String, var username: String, var profileImage: String)
+data class User(
+    var uid: String,
+    var username: String,
+    var profileImage: String,
+    var status: String
+) {
+    constructor() : this("", "", "", "")
+}

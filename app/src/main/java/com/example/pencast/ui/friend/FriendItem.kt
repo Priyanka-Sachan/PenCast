@@ -13,7 +13,7 @@ class FriendItem(val friend: Friend) : Item<GroupieViewHolder>() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.user_username.text = friend.username
-        viewHolder.itemView.user_status.text = "Status"
+        viewHolder.itemView.user_status.text = friend.status
         Glide.with(viewHolder.itemView.user_profile_image.context)
             .load(friend.profileImage)
             .into(viewHolder.itemView.user_profile_image)

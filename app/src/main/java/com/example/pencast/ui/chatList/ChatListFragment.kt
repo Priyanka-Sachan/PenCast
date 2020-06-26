@@ -67,8 +67,9 @@ class ChatListFragment : Fragment() {
                                 ChatListFragmentDirections.actionNavigationChatListToNavigationChat(
                                     Friend(
                                         userItem.chatList.uid,
+                                        userItem.chatList.username,
                                         userItem.chatList.profileImage,
-                                        userItem.chatList.username
+                                        userItem.chatList.status
                                     )
                                 )
                             )

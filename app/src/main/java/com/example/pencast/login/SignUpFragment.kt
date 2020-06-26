@@ -134,7 +134,7 @@ class SignUpFragment : Fragment() {
     private fun addUserToDatabase(imageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid.toString()
         val database = FirebaseDatabase.getInstance().getReference("/Users/$uid")
-        database.setValue(User(uid, binding.signUpUsername.text.toString(), imageUrl))
+        database.setValue(User(uid, binding.signUpUsername.text.toString(), imageUrl,"Let's RoCk at PenCast together..!."))
         val intent = Intent(activity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

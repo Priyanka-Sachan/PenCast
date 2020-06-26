@@ -96,6 +96,7 @@ class ChatFragment : Fragment() {
                 toId,
                 args.friend.username,
                 args.friend.profileImage,
+                args.friend.status,
                 message,
                 timeStamp
             )
@@ -104,8 +105,9 @@ class ChatFragment : Fragment() {
         latestReceiverMessageObject.setValue(
             ChatList(
                 fromId,
-                "Shared preferences",
+                "Shared preferences username",
                 profileImage,
+                "Shared preferences status",
                 message,
                 timeStamp
             )
