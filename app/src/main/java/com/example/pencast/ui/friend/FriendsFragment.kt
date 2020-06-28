@@ -8,13 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pencast.R
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 
-class FriendsFragment() : Fragment() {
+class FriendsFragment() : BottomSheetDialogFragment() {
 
     var childEventListener: ChildEventListener? = null
     private lateinit var friendRecyclerView: RecyclerView
@@ -43,7 +44,7 @@ class FriendsFragment() : Fragment() {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                     val friend: Friend? =
                         dataSnapshot.getValue(Friend::class.java)
-                    if (friend != null && friend.uid!=FirebaseAuth.getInstance().uid.toString()) {
+                    if (friend != null && friend.uid != FirebaseAuth.getInstance().uid.toString()) {
                         friendsAdapter.add(FriendItem(friend))
                         friendsAdapter.setOnItemClickListener { item, view ->
                             val userItem = item as FriendItem

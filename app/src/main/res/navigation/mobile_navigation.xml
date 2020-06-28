@@ -29,6 +29,7 @@
             android:id="@+id/action_navigation_chat_list_to_navigation_friends"
             app:destination="@id/navigation_friends" />
     </fragment>
+
     <fragment
         android:id="@+id/navigation_chat"
         android:name="com.example.pencast.ui.chat.ChatFragment"
@@ -41,7 +42,8 @@
             android:name="friend"
             app:argType="com.example.pencast.ui.friend.Friend" />
     </fragment>
-    <fragment
+
+    <dialog
         android:id="@+id/navigation_friends"
         android:name="com.example.pencast.ui.friend.FriendsFragment"
         android:label="Friends"
@@ -52,7 +54,8 @@
         <action
             android:id="@+id/action_navigation_friends_to_navigation_chat_list"
             app:destination="@id/navigation_chat_list" />
-    </fragment>
+    </dialog>
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.pencast.ui.profile.ProfileFragment"
