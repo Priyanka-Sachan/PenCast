@@ -62,7 +62,7 @@ class ChatFragment : Fragment() {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                sendMessage.isEnabled = charSequence.toString().trim { it <= ' ' }.isNotEmpty()
+                sendMessage.isEnabled = charSequence.toString().trim().isNotEmpty()
                 if (sendMessage.isEnabled)
                     sendMessage.setBackgroundResource(R.drawable.ic_circle_enabled)
                 else
@@ -73,8 +73,10 @@ class ChatFragment : Fragment() {
         })
 
         sendMessage.setOnClickListener {
-            sendMessageToDatabase(chatMessage.text.toString())
-            chatMessage.setText("")
+            if (chatMessage.text.toString().trim().isNotEmpty()) {
+                sendMessageToDatabase(chatMessage.text.toString())
+                chatMessage.setText("")
+            }
         }
 
         chatAdapter = GroupAdapter<GroupieViewHolder>()
@@ -123,12 +125,12 @@ class ChatFragment : Fragment() {
                         dataSnapshot.getValue(Chat::class.java)
                     if (chat != null) {
                         if (chat.senderId == fromId)
-                            chatAdapter.add(ChatToItem(chat, args.friend.profileImage))
+                            chatAdapter.add(ChatToItem(chat, profileImage))
                         else
                             chatAdapter.add(
                                 ChatFromItem(
                                     chat,
-                                    profileImage
+                                    args.friend.profileImage
                                 )
                             ) //Will be changed by shared preference later on
                     }

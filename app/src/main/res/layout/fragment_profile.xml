@@ -41,6 +41,7 @@
         android:background="@drawable/rounded_card_more"
         android:enabled="false"
         android:gravity="center_vertical"
+        android:maxLines="5"
         android:paddingVertical="20dp"
         android:paddingStart="8dp"
         android:paddingEnd="70dp"

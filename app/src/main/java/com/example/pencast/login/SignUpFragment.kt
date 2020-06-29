@@ -48,7 +48,7 @@ class SignUpFragment : Fragment() {
         binding.actionSignIn.setOnClickListener {
             findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToSignInFragment())
         }
-        binding.signUpProfile.setOnClickListener {
+        binding.signUpPickImage.setOnClickListener {
             val imagePickerIntent = Intent(Intent.ACTION_PICK)
             imagePickerIntent.type = "image/*"
             startActivityForResult(imagePickerIntent, IMAGE_PICKER_REQUEST_CODE)
@@ -68,16 +68,14 @@ class SignUpFragment : Fragment() {
                             activity?.contentResolver,
                             selectedPhotoUri
                         )
-                        binding.signUpProfile.background =
-                            BitmapDrawable(context?.resources, bitmap)
+                        binding.signUpProfile.setImageBitmap(bitmap)
                     } else {
                         val source = ImageDecoder.createSource(
                             requireActivity().contentResolver,
                             selectedPhotoUri!!
                         )
                         val bitmap = ImageDecoder.decodeBitmap(source)
-                        binding.signUpProfile.background =
-                            BitmapDrawable(context?.resources, bitmap)
+                        binding.signUpProfile.setImageBitmap(bitmap)
                     }
                 }
             } catch (e: Exception) {
@@ -134,7 +132,14 @@ class SignUpFragment : Fragment() {
     private fun addUserToDatabase(imageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid.toString()
         val database = FirebaseDatabase.getInstance().getReference("/Users/$uid")
-        database.setValue(User(uid, binding.signUpUsername.text.toString(), imageUrl,"Let's RoCk at PenCast together..!."))
+        database.setValue(
+            User(
+                uid,
+                binding.signUpUsername.text.toString(),
+                imageUrl,
+                "Let's RoCk at PenCast together..!."
+            )
+        )
         val intent = Intent(activity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
