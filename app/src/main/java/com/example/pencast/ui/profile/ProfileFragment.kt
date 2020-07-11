@@ -8,89 +8,83 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.example.pencast.R
+import com.example.pencast.databinding.FragmentProfileBinding
 import com.example.pencast.login.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class ProfileFragment : Fragment() {
 
-    lateinit var database: DatabaseReference
-    lateinit var thread: String
-    lateinit var user: User
+    lateinit var binding: FragmentProfileBinding
 
-    lateinit var authProfileImage: ImageView
-    lateinit var authUsername: TextView
-    lateinit var authStatus: TextView
-    lateinit var authSaveStatus: ImageButton
-    lateinit var authEditStatus: ImageButton
+    private lateinit var database: DatabaseReference
+
+    private lateinit var thread: String
+    lateinit var user: User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_profile,
+            container,
+            false
+        )
         thread = FirebaseAuth.getInstance().uid.toString()
         database = FirebaseDatabase.getInstance().getReference("/Users/$thread")
         attachDatabaseListener()
 
-        authProfileImage = view.findViewById(R.id.auth_profile_image)
-        authUsername = view.findViewById(R.id.auth_username)
-
-        authEditStatus = view.findViewById(R.id.auth_edit_status)
-        authEditStatus.setOnClickListener {
-            authStatus.isEnabled = true
-            authEditStatus.visibility = ImageButton.INVISIBLE
-            authSaveStatus.visibility = ImageButton.VISIBLE
+        binding.authEditStatus.setOnClickListener {
+            binding.authStatus.isEnabled = true
+            binding.authEditStatus.visibility = View.INVISIBLE
+            binding.authSaveStatus.visibility = View.VISIBLE
         }
 
-        authSaveStatus = view.findViewById(R.id.auth_save_status)
-        authStatus = view.findViewById(R.id.auth_status)
-        authStatus.addTextChangedListener(object : TextWatcher {
+        binding.authStatus.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 if (charSequence.toString() != user.status)
-                    authSaveStatus.isEnabled = true
-                if (authSaveStatus.isEnabled)
-                    authSaveStatus.setBackgroundResource(R.drawable.ic_circle_enabled)
+                    binding.authSaveStatus.isEnabled = true
+                if (binding.authSaveStatus.isEnabled)
+                    binding.authSaveStatus.setBackgroundResource(R.drawable.ic_circle_enabled)
                 else
-                    authSaveStatus.setBackgroundResource(R.drawable.ic_circle_not_enabled)
+                    binding.authSaveStatus.setBackgroundResource(R.drawable.ic_circle_not_enabled)
             }
 
             override fun afterTextChanged(editable: Editable) {}
         })
 
-        authSaveStatus.setOnClickListener {
-            if (authStatus.text.toString().trim().isNotEmpty())
-                updateStatus(authStatus.text.toString())
+        binding.authSaveStatus.setOnClickListener {
+            if (binding.authStatus.text.toString().trim().isNotEmpty())
+                updateStatus(binding.authStatus.text.toString())
         }
 
-        return view
+        return binding.root
     }
 
     private fun updateStatus(status: String) {
         database.child("status").setValue(status)
-        authEditStatus.visibility = ImageButton.VISIBLE
-        authStatus.isEnabled=false
-        authSaveStatus.setBackgroundResource(R.drawable.ic_circle_not_enabled)
-        authSaveStatus.visibility = ImageButton.INVISIBLE
+        binding.authEditStatus.visibility = View.VISIBLE
+        binding.authStatus.isEnabled = false
+        binding.authSaveStatus.setBackgroundResource(R.drawable.ic_circle_not_enabled)
+        binding.authSaveStatus.visibility = View.INVISIBLE
     }
 
     private fun attachDatabaseListener() {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 user = dataSnapshot.getValue(User::class.java)!!
-                Glide.with(authProfileImage.context)
+                Glide.with(binding.authProfileImage.context)
                     .load(user.profileImage)
-                    .into(authProfileImage)
-                authUsername.text = user.username
-                authStatus.text = user.status
+                    .into(binding.authProfileImage)
+                binding.authUsername.text = user.username
+                binding.authStatus.setText(user.status)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

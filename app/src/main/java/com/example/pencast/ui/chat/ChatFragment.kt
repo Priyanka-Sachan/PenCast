@@ -1,19 +1,16 @@
 package com.example.pencast.ui.chat
 
 import android.os.Bundle
-import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.example.pencast.R
+import com.example.pencast.databinding.FragmentChatBinding
 import com.example.pencast.ui.chatList.ChatList
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -22,70 +19,72 @@ import com.xwray.groupie.GroupieViewHolder
 
 class ChatFragment : Fragment() {
 
-    var childEventListener: ChildEventListener? = null
-    lateinit var chatAdapter: GroupAdapter<GroupieViewHolder>
-    lateinit var chatRecyclerView: RecyclerView
-    lateinit var args: ChatFragmentArgs
-    lateinit var messageDatabase: DatabaseReference
-    lateinit var latestMessageDatabase: DatabaseReference
-    lateinit var chatMessage: EditText
+    lateinit var binding: FragmentChatBinding
 
-    lateinit var toId: String
-    lateinit var fromId: String
-    lateinit var thread: String
+    private var childEventListener: ChildEventListener? = null
+    private lateinit var messageDatabase: DatabaseReference
+    private lateinit var latestMessageDatabase: DatabaseReference
 
-    lateinit var profileImage: String
+    private lateinit var chatAdapter: GroupAdapter<GroupieViewHolder>
+    private lateinit var args: ChatFragmentArgs
+
+    private lateinit var toId: String
+    private lateinit var fromId: String
+    private lateinit var thread: String
+    private val profileImage =
+        "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com" +
+                "/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_chat, container, false)
-        profileImage = "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com" +
-                "/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a"
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_chat,
+            container,
+            false
+        )
+
         args = ChatFragmentArgs.fromBundle(requireArguments())
         (activity as AppCompatActivity).supportActionBar?.title = args.friend.username
-
         toId = args.friend.uid
         fromId = FirebaseAuth.getInstance().uid.toString()
         thread = if (toId > fromId)
             toId + fromId
         else
             fromId + toId
+
         messageDatabase = FirebaseDatabase.getInstance().getReference("/Messages/$thread")
         latestMessageDatabase = FirebaseDatabase.getInstance().getReference("/Latest-Messages")
 
-        val sendMessage: ImageButton = view.findViewById(R.id.send_button)
-
-        chatMessage = view.findViewById(R.id.chat_message)
-        chatMessage.addTextChangedListener(object : TextWatcher {
+        binding.chatMessage.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                sendMessage.isEnabled = charSequence.toString().trim().isNotEmpty()
-                if (sendMessage.isEnabled)
-                    sendMessage.setBackgroundResource(R.drawable.ic_circle_enabled)
+                binding.sendButton.isEnabled = charSequence.toString().trim().isNotEmpty()
+                if (binding.sendButton.isEnabled)
+                    binding.sendButton.setBackgroundResource(R.drawable.ic_circle_enabled)
                 else
-                    sendMessage.setBackgroundResource(R.drawable.ic_circle_not_enabled)
+                    binding.sendButton.setBackgroundResource(R.drawable.ic_circle_not_enabled)
             }
 
             override fun afterTextChanged(editable: Editable) {}
         })
 
-        sendMessage.setOnClickListener {
-            if (chatMessage.text.toString().trim().isNotEmpty()) {
-                sendMessageToDatabase(chatMessage.text.toString())
-                chatMessage.setText("")
+        binding.sendButton.setOnClickListener {
+            if (binding.chatMessage.text.toString().trim().isNotEmpty()) {
+                sendMessageToDatabase(binding.chatMessage.text.toString())
+                binding.chatMessage.setText("")
             }
         }
 
         chatAdapter = GroupAdapter<GroupieViewHolder>()
-        chatRecyclerView = view.findViewById(R.id.chat_recycler_view)
-        chatRecyclerView.adapter = chatAdapter
+        binding.chatRecyclerView.adapter = chatAdapter
 
         attachDatabaseReadListener()
 
-        return view
+        return binding.root
     }
 
     private fun sendMessageToDatabase(message: String) {

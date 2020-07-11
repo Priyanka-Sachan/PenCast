@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.pencast.R
+import com.example.pencast.databinding.FragmentFriendsBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -15,27 +15,34 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 
-class FriendsFragment() : BottomSheetDialogFragment() {
+class FriendsFragment : BottomSheetDialogFragment() {
 
-    var childEventListener: ChildEventListener? = null
-    private lateinit var friendRecyclerView: RecyclerView
+    lateinit var binding: FragmentFriendsBinding
+
+    private var childEventListener: ChildEventListener? = null
+    private lateinit var database: DatabaseReference
+
     private lateinit var friendsAdapter: GroupAdapter<GroupieViewHolder>
-    lateinit var database: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_friends, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_friends,
+            container,
+            false
+        )
 
         database = FirebaseDatabase.getInstance().getReference("/Users")
 
-        friendRecyclerView = view.findViewById(R.id.friends_recycler_view)
         friendsAdapter = GroupAdapter<GroupieViewHolder>()
-        friendRecyclerView.adapter = friendsAdapter
+        binding.friendsRecyclerView.adapter = friendsAdapter
+
         attachDatabaseReadListener()
 
-        return view
+        return binding.root
     }
 
     private fun attachDatabaseReadListener() {

@@ -11,8 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentChatListBinding
 import com.example.pencast.ui.friend.Friend
-import com.example.pencast.ui.friend.FriendItem
-import com.example.pencast.ui.friend.FriendsFragmentDirections
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
@@ -20,10 +18,12 @@ import com.xwray.groupie.GroupieViewHolder
 
 class ChatListFragment : Fragment() {
 
-    var childEventListener: ChildEventListener? = null
+    private lateinit var binding: FragmentChatListBinding
+
+    private var childEventListener: ChildEventListener? = null
+    private lateinit var database: DatabaseReference
+
     private lateinit var chatListAdapter: GroupAdapter<GroupieViewHolder>
-    lateinit var database: DatabaseReference
-    lateinit var binding: FragmentChatListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,12 +37,11 @@ class ChatListFragment : Fragment() {
             false
         )
 
-        val uid = FirebaseAuth.getInstance().uid
-
         binding.newConversationButton.setOnClickListener {
             findNavController().navigate(ChatListFragmentDirections.actionNavigationChatListToNavigationFriends())
         }
 
+        val uid = FirebaseAuth.getInstance().uid
         database = FirebaseDatabase.getInstance().getReference("/Latest-Messages/$uid")
 
         chatListAdapter = GroupAdapter<GroupieViewHolder>()
