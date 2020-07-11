@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/rounded_card_half"
-    android:backgroundTint="@color/colorPrimary"
     tools:context=".ui.friend.FriendsFragment">
 
-    <TextView
-        android:id="@+id/find_friend_heading"
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_height="match_parent"
         android:background="@drawable/rounded_card_half"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:padding="8dp"
-        android:text="Find friends"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:backgroundTint="@color/colorPrimary">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/friends_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="4dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/find_friend_heading"
-        app:layout_constraintVertical_weight="1"
-        tools:listitem="@layout/card_user" />
+        <TextView
+            android:id="@+id/find_friend_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@drawable/rounded_card_half"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:padding="8dp"
+            android:text="Find friends"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/friends_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="60dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/find_friend_heading"
+            app:layout_constraintVertical_weight="1"
+            tools:listitem="@layout/card_user" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
