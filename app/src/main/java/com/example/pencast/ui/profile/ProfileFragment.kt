@@ -1,5 +1,6 @@
 package com.example.pencast.ui.profile
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentProfileBinding
@@ -22,8 +24,13 @@ class ProfileFragment : Fragment() {
 
     private lateinit var database: DatabaseReference
 
+    private lateinit var sharedPreferences: SharedPreferences
+
     private lateinit var thread: String
     lateinit var user: User
+
+    var imageUrl =
+        "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +42,20 @@ class ProfileFragment : Fragment() {
             container,
             false
         )
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        Glide.with(binding.authProfileImage.context)
+            .load(sharedPreferences.getString("PROFILE_IMAGE_URL", imageUrl))
+            .into(binding.authProfileImage)
+        binding.authUsername.text = sharedPreferences.getString("USERNAME", "Guest User")
+        binding.authStatus.setText(
+            sharedPreferences.getString(
+                "STATUS",
+                "Come join us at PenCast!!"
+            )
+        )
+
+
         thread = FirebaseAuth.getInstance().uid.toString()
         database = FirebaseDatabase.getInstance().getReference("/Users/$thread")
         attachDatabaseListener()
@@ -80,11 +101,9 @@ class ProfileFragment : Fragment() {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 user = dataSnapshot.getValue(User::class.java)!!
-                Glide.with(binding.authProfileImage.context)
-                    .load(user.profileImage)
-                    .into(binding.authProfileImage)
-                binding.authUsername.text = user.username
-                binding.authStatus.setText(user.status)
+                val sharedPreferencesEditor = sharedPreferences.edit()
+                sharedPreferencesEditor.putString("STATUS", user.status)
+                sharedPreferencesEditor.apply()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

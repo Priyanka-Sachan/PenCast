@@ -3,7 +3,6 @@ package com.example.pencast.login
 import android.app.Activity
 import android.content.Intent
 import android.graphics.ImageDecoder
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.example.pencast.MainActivity
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentSignUpBinding
@@ -132,14 +132,22 @@ class SignUpFragment : Fragment() {
     private fun addUserToDatabase(imageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid.toString()
         val database = FirebaseDatabase.getInstance().getReference("/Users/$uid")
-        database.setValue(
-            User(
-                uid,
-                binding.signUpUsername.text.toString(),
-                imageUrl,
-                "Let's RoCk at PenCast together..!."
-            )
+        val user = User(
+            uid,
+            binding.signUpUsername.text.toString(),
+            imageUrl,
+            "Let's RoCk at PenCast together..!."
         )
+        database.setValue(user)
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val sharedPreferenceEditor = sharedPreferences.edit()
+        sharedPreferenceEditor.putString("UID", user.uid)
+        sharedPreferenceEditor.putString("USERNAME", user.username)
+        sharedPreferenceEditor.putString("STATUS", user.status)
+        sharedPreferenceEditor.putString("PROFILE_IMAGE_URL", user.profileImage)
+        sharedPreferenceEditor.apply()
+
         val intent = Intent(activity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

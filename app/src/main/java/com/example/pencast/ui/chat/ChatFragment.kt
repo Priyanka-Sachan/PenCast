@@ -2,23 +2,22 @@ package com.example.pencast.ui.chat
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentChatBinding
 import com.example.pencast.ui.chatList.ChatList
-import com.google.firebase.auth.FirebaseAuth
+import com.example.pencast.ui.friend.Friend
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.xwray.groupie.GroupAdapter
@@ -36,8 +35,9 @@ class ChatFragment : Fragment() {
     private lateinit var chatAdapter: GroupAdapter<GroupieViewHolder>
     private lateinit var args: ChatFragmentArgs
 
-    private lateinit var toId: String
-    private lateinit var fromId: String
+    private lateinit var sender: Friend
+    private lateinit var receiver: Friend
+
     private lateinit var thread: String
     private val profileImage =
         "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com" +
@@ -57,13 +57,24 @@ class ChatFragment : Fragment() {
         )
 
         args = ChatFragmentArgs.fromBundle(requireArguments())
-        (activity as AppCompatActivity).supportActionBar?.title = args.friend.username
-        toId = args.friend.uid
-        fromId = FirebaseAuth.getInstance().uid.toString()
-        thread = if (toId > fromId)
-            toId + fromId
+        receiver = args.friend
+        (activity as AppCompatActivity).supportActionBar?.title = receiver.username
+        val sharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(activity)
+        sender = Friend(
+            sharedPreferences.getString("UID", "No-Uid")!!,
+            sharedPreferences.getString("USERNAME", "Guest User")!!,
+            sharedPreferences.getString("PROFILE_IMAGE_URL", profileImage)!!,
+            sharedPreferences.getString("STATUS", "Come join us at PenCast!!")!!
+        )
+        Log.e(
+            "Chat Fragment",
+            sender.uid + " " + sender.username + " " + sender.status + " " + sender.profileImage
+        )
+        thread = if (receiver.uid > sender.uid)
+            receiver.uid + sender.uid
         else
-            fromId + toId
+            sender.uid + receiver.uid
 
         messageDatabase = FirebaseDatabase.getInstance().getReference("/Messages/$thread")
         latestMessageDatabase = FirebaseDatabase.getInstance().getReference("/Latest-Messages")
@@ -127,31 +138,32 @@ class ChatFragment : Fragment() {
     private fun sendMessageToDatabase(type: String, message: String) {
         val timeStamp = System.currentTimeMillis()
         val senderMessageObject = messageDatabase.child("${thread}@${timeStamp}")
-        senderMessageObject.setValue(Chat(type, message, fromId, toId, timeStamp))
+        senderMessageObject.setValue(Chat(type, message, sender.uid, receiver.uid, timeStamp))
 
         val updatedMessage: String = if (type == "image")
             "Image"
         else
             message
 
-        val latestSenderMessageObject = latestMessageDatabase.child(fromId).child(toId)
+        val latestSenderMessageObject = latestMessageDatabase.child(sender.uid).child(receiver.uid)
         latestSenderMessageObject.setValue(
             ChatList(
-                toId,
-                args.friend.username,
-                args.friend.profileImage,
-                args.friend.status,
+                receiver.uid,
+                receiver.username,
+                receiver.profileImage,
+                receiver.status,
                 updatedMessage,
                 timeStamp
             )
         )
-        val latestReceiverMessageObject = latestMessageDatabase.child(toId).child(fromId)
+        val latestReceiverMessageObject =
+            latestMessageDatabase.child(receiver.uid).child(sender.uid)
         latestReceiverMessageObject.setValue(
             ChatList(
-                fromId,
-                "Shared preferences username",
-                profileImage,
-                "Shared preferences status",
+                sender.uid,
+                sender.username,
+                sender.profileImage,
+                sender.status,
                 updatedMessage,
                 timeStamp
             )
@@ -167,25 +179,25 @@ class ChatFragment : Fragment() {
                         dataSnapshot.getValue(Chat::class.java)
                     if (chat != null) {
                         if (chat.type == "text") {
-                            if (chat.senderId == fromId)
-                                chatAdapter.add(ChatToTextItem(chat, profileImage))
+                            if (chat.senderId == sender.uid)
+                                chatAdapter.add(ChatToTextItem(chat, sender.profileImage))
                             else
                                 chatAdapter.add(
                                     ChatFromTextItem(
                                         chat,
-                                        args.friend.profileImage
+                                        receiver.profileImage
                                     )
-                                ) //Will be changed by shared preference later on
+                                )
                         } else {
-                            if (chat.senderId == fromId)
-                                chatAdapter.add(ChatToImageItem(chat, profileImage))
+                            if (chat.senderId == sender.uid)
+                                chatAdapter.add(ChatToImageItem(chat, sender.profileImage))
                             else
                                 chatAdapter.add(
                                     ChatFromImageItem(
                                         chat,
-                                        args.friend.profileImage
+                                        receiver.profileImage
                                     )
-                                ) //Will be changed by shared preference later on
+                                )
                         }
                     }
                 }

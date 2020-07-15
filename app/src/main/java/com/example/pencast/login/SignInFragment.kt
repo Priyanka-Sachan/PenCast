@@ -10,14 +10,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.example.pencast.MainActivity
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentSignInBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 class SignInFragment : Fragment() {
 
     lateinit var binding: FragmentSignInBinding
+
+    private lateinit var database: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,8 +59,31 @@ class SignInFragment : Fragment() {
                         "SignUpFragment",
                         "User signed in successfully: ${it.result?.user?.uid}"
                     )
-                val intent= Intent(activity,MainActivity::class.java)
-                intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                val database = FirebaseDatabase.getInstance().getReference("/Users/${FirebaseAuth.getInstance().uid}")
+                database.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val user = dataSnapshot.getValue(User::class.java)!!
+                        val sharedPreferences =
+                            PreferenceManager.getDefaultSharedPreferences(activity)
+                        val sharedPreferenceEditor = sharedPreferences.edit()
+                        sharedPreferenceEditor.putString("UID", user.uid)
+                        sharedPreferenceEditor.putString("USERNAME", user.username)
+                        sharedPreferenceEditor.putString("STATUS", user.status)
+                        sharedPreferenceEditor.putString("PROFILE_IMAGE_URL", user.profileImage)
+                        sharedPreferenceEditor.apply()
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        Log.w(
+                            "ProfileFragment",
+                            "loadPost:onCancelled",
+                            databaseError.toException()
+                        )
+                    }
+                })
+
+                val intent = Intent(activity, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
             .addOnFailureListener {
