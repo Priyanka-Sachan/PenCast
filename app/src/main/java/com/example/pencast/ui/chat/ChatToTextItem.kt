@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.card_user.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ChatToItem(val chat: Chat,val profileImage:String) : Item<GroupieViewHolder>() {
+class ChatToTextItem(val chat: Chat, val profileImage:String) : Item<GroupieViewHolder>() {
     override fun getLayout(): Int {
         return R.layout.card_chat_to_text
     }
