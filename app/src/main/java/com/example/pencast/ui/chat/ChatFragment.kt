@@ -126,7 +126,7 @@ class ChatFragment : Fragment() {
         if (selectedPhotoUri != null) {
             val filename = UUID.randomUUID().toString()
             val storage = FirebaseStorage.getInstance().getReference("/Images/${thread}/$filename")
-            storage.putFile(selectedPhotoUri!!)
+            storage.putFile(selectedPhotoUri)
                 .addOnSuccessListener {
                     storage.downloadUrl.addOnSuccessListener {
                         sendMessageToDatabase("image", it.toString())

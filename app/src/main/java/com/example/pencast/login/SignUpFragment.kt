@@ -29,7 +29,7 @@ class SignUpFragment : Fragment() {
 
     private val IMAGE_PICKER_REQUEST_CODE = 1
 
-    var selectedPhotoUri: Uri? = null
+    private var selectedPhotoUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +41,7 @@ class SignUpFragment : Fragment() {
             container,
             false
         )
+
         binding.signUpButton.setOnClickListener {
             signUpUser()
         }
@@ -52,7 +53,7 @@ class SignUpFragment : Fragment() {
             imagePickerIntent.type = "image/*"
             startActivityForResult(imagePickerIntent, IMAGE_PICKER_REQUEST_CODE)
         }
-        // Inflate the layout for this fragment
+
         return binding.root
     }
 

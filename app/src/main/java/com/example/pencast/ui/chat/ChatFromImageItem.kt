@@ -5,7 +5,6 @@ import com.example.pencast.R
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.card_chat_from_image.view.*
-import kotlinx.android.synthetic.main.card_chat_from_text.view.*
 import kotlinx.android.synthetic.main.card_chat_from_text.view.image_from
 import kotlinx.android.synthetic.main.card_chat_from_text.view.recieve_time
 import java.text.SimpleDateFormat

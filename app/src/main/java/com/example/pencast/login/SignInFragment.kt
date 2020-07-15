@@ -21,8 +21,6 @@ class SignInFragment : Fragment() {
 
     lateinit var binding: FragmentSignInBinding
 
-    private lateinit var database: DatabaseReference
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,7 +57,8 @@ class SignInFragment : Fragment() {
                         "SignUpFragment",
                         "User signed in successfully: ${it.result?.user?.uid}"
                     )
-                val database = FirebaseDatabase.getInstance().getReference("/Users/${FirebaseAuth.getInstance().uid}")
+                val database = FirebaseDatabase.getInstance()
+                    .getReference("/Users/${FirebaseAuth.getInstance().uid}")
                 database.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         val user = dataSnapshot.getValue(User::class.java)!!

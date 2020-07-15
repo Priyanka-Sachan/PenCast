@@ -30,7 +30,6 @@ class ProfileFragment : Fragment() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
-    private lateinit var thread: String
     lateinit var user: User
     private val IMAGE_PICKER_REQUEST_CODE: Int = 3
 
@@ -59,7 +58,6 @@ class ProfileFragment : Fragment() {
                 "Come join us at PenCast!!"
             )
         )
-
 
         val uid = FirebaseAuth.getInstance().uid.toString()
         database = FirebaseDatabase.getInstance().getReference("/Users/$uid")
