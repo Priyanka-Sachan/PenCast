@@ -4,15 +4,15 @@ import com.bumptech.glide.Glide
 import com.example.pencast.R
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import kotlinx.android.synthetic.main.card_chat_from.view.*
-import kotlinx.android.synthetic.main.card_chat_to.view.*
+import kotlinx.android.synthetic.main.card_chat_from_text.view.*
+import kotlinx.android.synthetic.main.card_chat_to_text.view.*
 import kotlinx.android.synthetic.main.card_user.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ChatToItem(val chat: Chat,val profileImage:String) : Item<GroupieViewHolder>() {
+class ChatToTextItem(val chat: Chat, val profileImage:String) : Item<GroupieViewHolder>() {
     override fun getLayout(): Int {
-        return R.layout.card_chat_to
+        return R.layout.card_chat_to_text
     }
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {

@@ -3,7 +3,6 @@ package com.example.pencast.login
 import android.app.Activity
 import android.content.Intent
 import android.graphics.ImageDecoder
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,13 +15,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.example.pencast.MainActivity
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import java.util.*
 
 class SignUpFragment : Fragment() {
 
@@ -116,8 +115,8 @@ class SignUpFragment : Fragment() {
         var imageUrl =
             "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a"
         if (selectedPhotoUri != null) {
-            val filename = UUID.randomUUID().toString()
-            val storage = FirebaseStorage.getInstance().getReference("/profileImages/$filename")
+            val uid = FirebaseAuth.getInstance().uid
+            val storage = FirebaseStorage.getInstance().getReference("/profileImages/${uid}")
             storage.putFile(selectedPhotoUri!!)
                 .addOnSuccessListener {
                     storage.downloadUrl.addOnSuccessListener {
@@ -132,14 +131,22 @@ class SignUpFragment : Fragment() {
     private fun addUserToDatabase(imageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid.toString()
         val database = FirebaseDatabase.getInstance().getReference("/Users/$uid")
-        database.setValue(
-            User(
-                uid,
-                binding.signUpUsername.text.toString(),
-                imageUrl,
-                "Let's RoCk at PenCast together..!."
-            )
+        val user = User(
+            uid,
+            binding.signUpUsername.text.toString(),
+            imageUrl,
+            "Let's RoCk at PenCast together..!."
         )
+        database.setValue(user)
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val sharedPreferenceEditor = sharedPreferences.edit()
+        sharedPreferenceEditor.putString("UID", user.uid)
+        sharedPreferenceEditor.putString("USERNAME", user.username)
+        sharedPreferenceEditor.putString("STATUS", user.status)
+        sharedPreferenceEditor.putString("PROFILE_IMAGE_URL", user.profileImage)
+        sharedPreferenceEditor.apply()
+
         val intent = Intent(activity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
