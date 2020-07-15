@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.profile.ProfileFragment">
 
-    <data></data>
+    <data>
+
+        <variable
+            name="profileViewModel"
+            type="com.example.pencast.ui.profile.ProfileViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,6 +24,7 @@
             app:civ_border_color="@color/colorPrimaryDark"
             app:civ_border_overlay="true"
             app:civ_border_width="4dp"
+            app:imageUrl="@{profileViewModel.user.profileImage}"
             app:layout_constraintBottom_toTopOf="@id/auth_username"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -41,6 +47,7 @@
             android:layout_height="60dp"
             android:layout_margin="4dp"
             android:gravity="center"
+            android:text="@{profileViewModel.user.username}"
             android:textSize="32sp"
             app:layout_constraintBottom_toTopOf="@id/auth_status"
             app:layout_constraintTop_toBottomOf="@id/auth_profile_image"
@@ -58,6 +65,7 @@
             android:paddingVertical="20dp"
             android:paddingStart="8dp"
             android:paddingEnd="70dp"
+            android:text="@{profileViewModel.user.status}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/auth_username"
             tools:text="Your Status" />
