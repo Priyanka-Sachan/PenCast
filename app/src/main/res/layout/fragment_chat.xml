@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/holo_green_light"
-            android:paddingBottom="16dp"
+            android:clipToPadding="false"
+            android:paddingBottom="70dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/chat_bar"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +34,7 @@
                 android:id="@+id/chat_pick_image"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@android:color/transparent"
+                android:background="@drawable/ic_circle_enabled"
                 android:src="@drawable/ic_image" />
 
             <EditText
