@@ -22,7 +22,6 @@ import com.example.pencast.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import java.util.*
 
 class SignUpFragment : Fragment() {
 
@@ -116,8 +115,8 @@ class SignUpFragment : Fragment() {
         var imageUrl =
             "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a"
         if (selectedPhotoUri != null) {
-            val filename = UUID.randomUUID().toString()
-            val storage = FirebaseStorage.getInstance().getReference("/profileImages/$filename")
+            val uid = FirebaseAuth.getInstance().uid
+            val storage = FirebaseStorage.getInstance().getReference("/profileImages/${uid}")
             storage.putFile(selectedPhotoUri!!)
                 .addOnSuccessListener {
                     storage.downloadUrl.addOnSuccessListener {
