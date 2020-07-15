@@ -2,12 +2,9 @@ package com.example.pencast.ui.chatList
 
 import com.bumptech.glide.Glide
 import com.example.pencast.R
-import com.example.pencast.ui.friend.Friend
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import kotlinx.android.synthetic.main.card_chat_from.view.*
 import kotlinx.android.synthetic.main.card_chat_list.view.*
-import kotlinx.android.synthetic.main.card_user.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 

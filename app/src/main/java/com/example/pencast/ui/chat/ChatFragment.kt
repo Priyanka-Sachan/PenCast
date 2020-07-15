@@ -90,7 +90,7 @@ class ChatFragment : Fragment() {
     private fun sendMessageToDatabase(message: String) {
         val timeStamp = System.currentTimeMillis()
         val senderMessageObject = messageDatabase.child("${thread}@${timeStamp}")
-        senderMessageObject.setValue(Chat(message, fromId, toId, timeStamp))
+        senderMessageObject.setValue(Chat("text", message, fromId, toId, timeStamp))
         val latestSenderMessageObject = latestMessageDatabase.child(fromId).child(toId)
         latestSenderMessageObject.setValue(
             ChatList(
@@ -123,15 +123,17 @@ class ChatFragment : Fragment() {
                     val chat: Chat? =
                         dataSnapshot.getValue(Chat::class.java)
                     if (chat != null) {
-                        if (chat.senderId == fromId)
-                            chatAdapter.add(ChatToItem(chat, profileImage))
-                        else
-                            chatAdapter.add(
-                                ChatFromItem(
-                                    chat,
-                                    args.friend.profileImage
-                                )
-                            ) //Will be changed by shared preference later on
+                        if (chat.type == "text") {
+                            if (chat.senderId == fromId)
+                                chatAdapter.add(ChatToItem(chat, profileImage))
+                            else
+                                chatAdapter.add(
+                                    ChatFromItem(
+                                        chat,
+                                        args.friend.profileImage
+                                    )
+                                ) //Will be changed by shared preference later on
+                        }
                     }
                 }
 

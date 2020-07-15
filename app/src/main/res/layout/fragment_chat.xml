@@ -17,32 +17,41 @@
             android:background="@android:color/holo_green_light"
             android:paddingBottom="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/chat_message"
+            app:layout_constraintBottom_toTopOf="@id/chat_bar"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/card_chat_from" />
+            tools:listitem="@layout/card_chat_from_text" />
 
-        <EditText
-            android:id="@+id/chat_message"
+        <LinearLayout
+            android:id="@+id/chat_bar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/rounded_card_half"
-            android:hint="Enter your message"
-            android:padding="4dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="0dp"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageButton
-            android:id="@+id/send_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="4dp"
-            android:background="@drawable/ic_circle_not_enabled"
-            android:enabled="false"
-            android:src="@drawable/ic_send"
-            app:layout_constraintBottom_toBottomOf="@+id/chat_message"
-            app:layout_constraintRight_toRightOf="@id/chat_message"
-            app:layout_constraintTop_toTopOf="@id/chat_message" />
+            <ImageButton
+                android:id="@+id/chat_pick_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_image" />
+
+            <EditText
+                android:id="@+id/chat_message"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:hint="Enter your message" />
+
+            <ImageButton
+                android:id="@+id/send_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/ic_circle_not_enabled"
+                android:enabled="false"
+                android:src="@drawable/ic_send" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
