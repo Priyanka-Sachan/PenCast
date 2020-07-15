@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.pencast.login.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -12,19 +13,19 @@ class FriendViewModel(application: Application) : AndroidViewModel(application) 
     private var childEventListener: ChildEventListener? = null
     private var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("/Users")
 
-    private var _friends = MutableLiveData<MutableList<Friend>>()
-    val friends: LiveData<MutableList<Friend>>
+    private var _friends = MutableLiveData<MutableList<User>>()
+    val friends: LiveData<MutableList<User>>
         get() = _friends
 
     fun attachDatabaseReadListener() {
-        val friendList = mutableListOf<Friend>()
+        val friendList = mutableListOf<User>()
         if (childEventListener == null) {
             childEventListener = object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                    val friend: Friend? =
-                        dataSnapshot.getValue(Friend::class.java)
-                    if (friend != null && friend.uid != FirebaseAuth.getInstance().uid.toString()) {
-                        friendList.add(friend)
+                    val user: User? =
+                        dataSnapshot.getValue(User::class.java)
+                    if (user != null && user.uid != FirebaseAuth.getInstance().uid.toString()) {
+                        friendList.add(user)
                         _friends.value = friendList
                     }
                 }

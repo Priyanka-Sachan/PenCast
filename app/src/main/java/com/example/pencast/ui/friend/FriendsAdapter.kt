@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pencast.databinding.CardUserBinding
+import com.example.pencast.login.User
 
-class FriendsAdapter(val friendClickListener: FriendClickListener) : ListAdapter<Friend,
+class FriendsAdapter(val friendClickListener: FriendClickListener) : ListAdapter<User,
         FriendsAdapter.ViewHolder>(FriendDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -22,7 +23,7 @@ class FriendsAdapter(val friendClickListener: FriendClickListener) : ListAdapter
     class ViewHolder private constructor(val binding: CardUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(friendClickListener: FriendClickListener, item: Friend) {
+        fun bind(friendClickListener: FriendClickListener, item: User) {
             binding.friend = item
             binding.friendClickListener = friendClickListener
             binding.executePendingBindings()
@@ -38,16 +39,16 @@ class FriendsAdapter(val friendClickListener: FriendClickListener) : ListAdapter
     }
 }
 
-class FriendDiffCallback : DiffUtil.ItemCallback<Friend>() {
-    override fun areItemsTheSame(oldItem: Friend, newItem: Friend): Boolean {
+class FriendDiffCallback : DiffUtil.ItemCallback<User>() {
+    override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
         return oldItem.uid == newItem.uid
     }
 
-    override fun areContentsTheSame(oldItem: Friend, newItem: Friend): Boolean {
+    override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
         return oldItem == newItem
     }
 }
 
-class FriendClickListener(val friendClickListener: (friend: Friend) -> Unit) {
-    fun onClick(friend: Friend) = friendClickListener(friend)
+class FriendClickListener(val friendClickListener: (user: User) -> Unit) {
+    fun onClick(user: User) = friendClickListener(user)
 }

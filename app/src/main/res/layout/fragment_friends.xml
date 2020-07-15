@@ -5,7 +5,6 @@
     tools:context=".ui.friend.FriendsFragment">
 
     <data>
-
         <variable
             name="friendViewModel"
             type="com.example.pencast.ui.friend.FriendViewModel" />
