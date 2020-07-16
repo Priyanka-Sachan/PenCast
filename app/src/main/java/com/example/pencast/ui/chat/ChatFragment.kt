@@ -73,6 +73,7 @@ class ChatFragment : Fragment() {
 
         chatViewModel.chat.observe(viewLifecycleOwner, Observer {
             chatAdapter.submitList(it)
+            binding.chatRecyclerView.scrollToPosition(it.size-1)
         })
 
         binding.chatPickImage.setOnClickListener {

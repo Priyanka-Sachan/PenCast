@@ -48,7 +48,7 @@
                 android:textColor="@android:color/white"
                 app:layout_constraintRight_toLeftOf="@id/image_to"
                 app:layout_constraintTop_toBottomOf="@id/message_to"
-                app:timeStamp="@{chat.timeStamp}"
+                app:timeStampLong="@{chat.timeStamp}"
                 tools:text="At 09/07/2020 11:42:11" />
 
             <de.hdodenhof.circleimageview.CircleImageView

@@ -46,8 +46,6 @@ class FriendsFragment : BottomSheetDialogFragment() {
             }
         })
 
-        friendViewModel.attachDatabaseReadListener()
-
         return binding.root
     }
 }

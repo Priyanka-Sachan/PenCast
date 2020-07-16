@@ -58,8 +58,6 @@ class ChatListFragment : Fragment() {
             findNavController().navigate(ChatListFragmentDirections.actionNavigationChatListToNavigationFriends())
         }
 
-        chatListViewModel.attachDatabaseReadListener()
-
         return binding.root
     }
 }

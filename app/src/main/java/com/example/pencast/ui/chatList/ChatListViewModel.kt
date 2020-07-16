@@ -26,7 +26,7 @@ class ChatListViewModel(application: Application) : AndroidViewModel(application
         attachDatabaseReadListener()
     }
 
-    fun attachDatabaseReadListener() {
+    private fun attachDatabaseReadListener() {
         if (childEventListener == null) {
             childEventListener = object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {

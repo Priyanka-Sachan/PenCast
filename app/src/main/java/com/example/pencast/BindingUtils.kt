@@ -19,9 +19,16 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
-@BindingAdapter("timeStamp")
-fun bindText(textView: TextView, timeStamp: Long) {
-    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+@BindingAdapter("timeStampShort")
+fun timeStampShort(textView: TextView, timeStamp: Long) {
+    val formatter = SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH)
+    val dataString = formatter.format(Date(timeStamp))
+    textView.text = "At $dataString"
+}
+
+@BindingAdapter("timeStampLong")
+fun timeStampLong(textView: TextView, timeStamp: Long) {
+    val formatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.ENGLISH)
     val dataString = formatter.format(Date(timeStamp))
     textView.text = "At $dataString"
 }

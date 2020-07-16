@@ -25,6 +25,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/chat_bar"
             app:layout_constraintTop_toTopOf="parent"
+            app:stackFromEnd="true"
             tools:listitem="@layout/card_chat_from_text" />
 
         <LinearLayout
