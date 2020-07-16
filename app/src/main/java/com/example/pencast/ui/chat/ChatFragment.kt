@@ -15,8 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentChatBinding
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
 
 class ChatFragment : Fragment() {
 
@@ -25,7 +23,7 @@ class ChatFragment : Fragment() {
     lateinit var chatViewModel: ChatViewModel
     lateinit var chatViewModelFactory: ChatViewModelFactory
 
-    private lateinit var chatAdapter: GroupAdapter<GroupieViewHolder>
+    private lateinit var chatAdapter: ChatAdapter
     private lateinit var args: ChatFragmentArgs
 
     private val IMAGE_PICKER_REQUEST_CODE: Int = 2
@@ -49,9 +47,7 @@ class ChatFragment : Fragment() {
         binding.chatViewModel = chatViewModel
         binding.lifecycleOwner = this
 
-        chatViewModel.attachDatabaseReadListener()
-
-        chatAdapter = GroupAdapter<GroupieViewHolder>()
+        chatAdapter = ChatAdapter(chatViewModel.sender.profileImage,chatViewModel.receiver.profileImage)
         binding.chatRecyclerView.adapter = chatAdapter
 
         binding.chatMessage.addTextChangedListener(object : TextWatcher {
@@ -75,15 +71,9 @@ class ChatFragment : Fragment() {
             }
         }
 
-        chatViewModel.latestChat.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                when (chatViewModel.newChatPing.value) {
-                    1 -> chatAdapter.add(ChatToTextItem(it, chatViewModel.sender.profileImage))
-                    2 -> chatAdapter.add(ChatFromTextItem(it, chatViewModel.receiver.profileImage))
-                    3 -> chatAdapter.add(ChatToImageItem(it, chatViewModel.sender.profileImage))
-                    4 -> chatAdapter.add(ChatFromImageItem(it, chatViewModel.receiver.profileImage))
-                }
-            }
+        chatViewModel.chat.observe(viewLifecycleOwner, Observer {
+            chatAdapter.submitList(it)
+            binding.chatRecyclerView.scrollToPosition(it.size-1)
         })
 
         binding.chatPickImage.setOnClickListener {

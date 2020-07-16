@@ -17,7 +17,11 @@ class FriendViewModel(application: Application) : AndroidViewModel(application) 
     val friends: LiveData<MutableList<User>>
         get() = _friends
 
-    fun attachDatabaseReadListener() {
+    init{
+        attachDatabaseReadListener()
+    }
+
+    private fun attachDatabaseReadListener() {
         val friendList = mutableListOf<User>()
         if (childEventListener == null) {
             childEventListener = object : ChildEventListener {
