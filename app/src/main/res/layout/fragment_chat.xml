@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.chat.ChatFragment">
 
-    <data></data>
+    <data>
+
+        <variable
+            name="chatViewModel"
+            type="com.example.pencast.ui.chat.ChatViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
