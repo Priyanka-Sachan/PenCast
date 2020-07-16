@@ -13,21 +13,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentChatListBinding
 import com.example.pencast.login.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
 
 class ChatListFragment : Fragment() {
 
     private lateinit var binding: FragmentChatListBinding
 
     private lateinit var chatListViewModel: ChatListViewModel
-
-//    private var childEventListener: ChildEventListener? = null
-//    private lateinit var database: DatabaseReference
-
-    private lateinit var chatListAdapter: GroupAdapter<GroupieViewHolder>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,47 +58,8 @@ class ChatListFragment : Fragment() {
             findNavController().navigate(ChatListFragmentDirections.actionNavigationChatListToNavigationFriends())
         }
 
-//        val uid = FirebaseAuth.getInstance().uid
-//        database = FirebaseDatabase.getInstance().getReference("/Latest-Messages/$uid")
-//
-//        chatListAdapter = GroupAdapter<GroupieViewHolder>()
-//        binding.chatListRecyclerView.adapter = chatListAdapter
-
         chatListViewModel.attachDatabaseReadListener()
 
         return binding.root
     }
-
-//    private fun attachDatabaseReadListener() {
-//        if (childEventListener == null) {
-//            childEventListener = object : ChildEventListener {
-//                override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-//                    val chatList: ChatList? =
-//                        dataSnapshot.getValue(ChatList::class.java)
-//                    if (chatList != null) {
-//                        chatListAdapter.add(ChatListItem(chatList))
-//                        chatListAdapter.setOnItemClickListener { item, view ->
-//                            val userItem = item as ChatListItem
-////                            NavHostFragment.findNavController(this@ChatListFragment).navigate(
-////                                ChatListFragmentDirections.actionNavigationChatListToNavigationChat(
-////                                    User(
-////                                        userItem.chatList.uid,
-////                                        userItem.chatList.username,
-////                                        userItem.chatList.profileImage,
-////                                        userItem.chatList.status
-////                                    )
-////                                )
-////                            )
-//                        }
-//                    }
-//                }
-//
-//                override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}
-//                override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
-//                override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
-//                override fun onCancelled(databaseError: DatabaseError) {}
-//            }
-//            database.addChildEventListener(childEventListener as ChildEventListener)
-//        }
-//    }
 }

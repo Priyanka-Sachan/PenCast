@@ -2,6 +2,7 @@
 package com.example.pencast.ui.chatList
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +18,8 @@ class ChatListViewModel(application: Application) : AndroidViewModel(application
     val chatLists: LiveData<MutableList<ChatList>>
         get() = _chatLists
 
+    private var chatList= ArrayList<ChatList>()
+
     init {
         val uid = FirebaseAuth.getInstance().uid
         database = FirebaseDatabase.getInstance().getReference("/Latest-Messages/$uid")
@@ -27,10 +30,12 @@ class ChatListViewModel(application: Application) : AndroidViewModel(application
         if (childEventListener == null) {
             childEventListener = object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                    val chatList: ChatList? =
+                    val chat: ChatList? =
                         dataSnapshot.getValue(ChatList::class.java)
-                    if (chatList != null) {
-                        _chatLists.value?.add(chatList)
+                    if (chat != null) {
+                        chatList.add(chat)
+                        _chatLists.value=chatList
+                        Log.e("ChatListViewModel", _chatLists.value?.size.toString())
                     }
                 }
 
