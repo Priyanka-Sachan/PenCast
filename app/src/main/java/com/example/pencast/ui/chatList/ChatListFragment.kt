@@ -10,7 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentChatListBinding
-import com.example.pencast.ui.friend.Friend
+import com.example.pencast.login.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
@@ -64,7 +64,7 @@ class ChatListFragment : Fragment() {
                             val userItem = item as ChatListItem
                             NavHostFragment.findNavController(this@ChatListFragment).navigate(
                                 ChatListFragmentDirections.actionNavigationChatListToNavigationChat(
-                                    Friend(
+                                    User(
                                         userItem.chatList.uid,
                                         userItem.chatList.username,
                                         userItem.chatList.profileImage,

@@ -16,8 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentChatBinding
+import com.example.pencast.login.User
 import com.example.pencast.ui.chatList.ChatList
-import com.example.pencast.ui.friend.Friend
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.xwray.groupie.GroupAdapter
@@ -35,8 +35,8 @@ class ChatFragment : Fragment() {
     private lateinit var chatAdapter: GroupAdapter<GroupieViewHolder>
     private lateinit var args: ChatFragmentArgs
 
-    private lateinit var sender: Friend
-    private lateinit var receiver: Friend
+    private lateinit var sender: User
+    private lateinit var receiver: User
 
     private lateinit var thread: String
     private val profileImage =
@@ -61,15 +61,11 @@ class ChatFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = receiver.username
         val sharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(activity)
-        sender = Friend(
+        sender = User(
             sharedPreferences.getString("UID", "No-Uid")!!,
             sharedPreferences.getString("USERNAME", "Guest User")!!,
             sharedPreferences.getString("PROFILE_IMAGE_URL", profileImage)!!,
             sharedPreferences.getString("STATUS", "Come join us at PenCast!!")!!
-        )
-        Log.e(
-            "Chat Fragment",
-            sender.uid + " " + sender.username + " " + sender.status + " " + sender.profileImage
         )
         thread = if (receiver.uid > sender.uid)
             receiver.uid + sender.uid
