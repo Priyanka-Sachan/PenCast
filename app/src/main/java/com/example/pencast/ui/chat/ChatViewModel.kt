@@ -11,6 +11,7 @@ import com.example.pencast.ui.chatList.ChatList
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ChatViewModel(var application: Application, var receiver: User) : ViewModel() {
 
@@ -22,19 +23,22 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
     private lateinit var thread: String
     lateinit var sender: User
 
+    private var _chat = MutableLiveData<MutableList<Chat>>()
+    val chat: LiveData<MutableList<Chat>>
+        get() = _chat
+
+    var chats = ArrayList<Chat>()
+
     private var _latestChat = MutableLiveData<Chat?>()
     val latestChat: LiveData<Chat?>
         get() = _latestChat
-
-    private var _newChatPing: MutableLiveData<Int> = MutableLiveData(0)
-    val newChatPing: LiveData<Int>
-        get() = _newChatPing
 
     init {
         _latestChat.value = null
         getSenderData()
         getPath()
         latestMessageDatabase = FirebaseDatabase.getInstance().getReference("/Latest-Messages")
+        attachDatabaseReadListener()
     }
 
     private fun getSenderData() {
@@ -51,7 +55,7 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
         )
     }
 
-    fun getPath() {
+    private fun getPath() {
         thread = if (receiver.uid > sender.uid)
             receiver.uid + sender.uid
         else
@@ -107,7 +111,7 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
         }
     }
 
-    fun attachDatabaseReadListener() {
+    private fun attachDatabaseReadListener() {
         if (childEventListener == null) {
             childEventListener = object : ChildEventListener {
 
@@ -115,17 +119,8 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
                     val chat: Chat? =
                         dataSnapshot.getValue(Chat::class.java)
                     if (chat != null) {
-                        if (chat.type == "text") {
-                            if (chat.senderId == sender.uid)
-                                _newChatPing.value = 1
-                            else
-                                _newChatPing.value = 2
-                        } else {
-                            if (chat.senderId == sender.uid)
-                                _newChatPing.value = 3
-                            else
-                                _newChatPing.value = 4
-                        }
+                        chats.add(chat)
+                        _chat.value = chats
                         _latestChat.value = chat
                     }
                 }

@@ -62,14 +62,19 @@ class SignInFragment : Fragment() {
                 database.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         val user = dataSnapshot.getValue(User::class.java)!!
+
                         val sharedPreferences =
-                            PreferenceManager.getDefaultSharedPreferences(activity)
+                            PreferenceManager.getDefaultSharedPreferences(context)
                         val sharedPreferenceEditor = sharedPreferences.edit()
                         sharedPreferenceEditor.putString("UID", user.uid)
                         sharedPreferenceEditor.putString("USERNAME", user.username)
                         sharedPreferenceEditor.putString("STATUS", user.status)
                         sharedPreferenceEditor.putString("PROFILE_IMAGE_URL", user.profileImage)
                         sharedPreferenceEditor.apply()
+                        
+                        val intent = Intent(activity, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
@@ -81,9 +86,7 @@ class SignInFragment : Fragment() {
                     }
                 })
 
-                val intent = Intent(activity, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+
             }
             .addOnFailureListener {
                 Toast.makeText(

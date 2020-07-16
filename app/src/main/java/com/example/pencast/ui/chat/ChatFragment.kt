@@ -49,8 +49,6 @@ class ChatFragment : Fragment() {
         binding.chatViewModel = chatViewModel
         binding.lifecycleOwner = this
 
-        chatViewModel.attachDatabaseReadListener()
-
         chatAdapter = GroupAdapter<GroupieViewHolder>()
         binding.chatRecyclerView.adapter = chatAdapter
 
@@ -75,13 +73,23 @@ class ChatFragment : Fragment() {
             }
         }
 
-        chatViewModel.latestChat.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                when (chatViewModel.newChatPing.value) {
-                    1 -> chatAdapter.add(ChatToTextItem(it, chatViewModel.sender.profileImage))
-                    2 -> chatAdapter.add(ChatFromTextItem(it, chatViewModel.receiver.profileImage))
-                    3 -> chatAdapter.add(ChatToImageItem(it, chatViewModel.sender.profileImage))
-                    4 -> chatAdapter.add(ChatFromImageItem(it, chatViewModel.receiver.profileImage))
+        chatViewModel.latestChat.observe(viewLifecycleOwner, Observer { chat ->
+            if (chat != null) {
+                if (chat.type == "text") {
+                    if (chat.senderId == chatViewModel.sender.uid)
+                        chatAdapter.add(ChatToTextItem(chat, chatViewModel.sender.profileImage))
+                    else
+                        chatAdapter.add(ChatFromTextItem(chat, chatViewModel.receiver.profileImage))
+                } else {
+                    if (chat.senderId == chatViewModel.sender.uid)
+                        chatAdapter.add(ChatToImageItem(chat, chatViewModel.sender.profileImage))
+                    else
+                        chatAdapter.add(
+                            ChatFromImageItem(
+                                chat,
+                                chatViewModel.receiver.profileImage
+                            )
+                        )
                 }
             }
         })
@@ -100,6 +108,26 @@ class ChatFragment : Fragment() {
         if (requestCode == IMAGE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val selectedPhotoUri = data.data
             chatViewModel.uploadImage(selectedPhotoUri)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val iterate = chatViewModel.chat.value?.iterator()
+        if (iterate != null) {
+            for (chat in iterate) {
+                if (chat.type == "text") {
+                    if (chat.senderId == chatViewModel.sender.uid)
+                        chatAdapter.add(ChatToTextItem(chat, chatViewModel.sender.profileImage))
+                    else
+                        chatAdapter.add(ChatFromTextItem(chat, chatViewModel.receiver.profileImage))
+                } else {
+                    if (chat.senderId == chatViewModel.sender.uid)
+                        chatAdapter.add(ChatToImageItem(chat, chatViewModel.sender.profileImage))
+                    else
+                        chatAdapter.add(ChatFromImageItem(chat, chatViewModel.receiver.profileImage))
+                }
+            }
         }
     }
 }
