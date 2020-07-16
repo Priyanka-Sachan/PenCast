@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.chatList.ChatListFragment">
 
-    <data></data>
+    <data>
+        <variable
+            name="chatListViewModel"
+            type="com.example.pencast.ui.chatList.ChatListViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
