@@ -29,12 +29,7 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
 
     var chats = ArrayList<Chat>()
 
-    private var _latestChat = MutableLiveData<Chat?>()
-    val latestChat: LiveData<Chat?>
-        get() = _latestChat
-
     init {
-        _latestChat.value = null
         getSenderData()
         getPath()
         latestMessageDatabase = FirebaseDatabase.getInstance().getReference("/Latest-Messages")
@@ -121,7 +116,6 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
                     if (chat != null) {
                         chats.add(chat)
                         _chat.value = chats
-                        _latestChat.value = chat
                     }
                 }
 

@@ -8,6 +8,10 @@
         <variable
             name="chat"
             type="com.example.pencast.ui.chat.Chat" />
+
+        <variable
+            name="profileImage"
+            type="String" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -27,6 +31,7 @@
                 android:layout_margin="4dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ic_launcher_round"
+                app:imageUrl="@{profileImage}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,6 +44,7 @@
                 android:maxWidth="200dp"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
+                android:text="@{chat.message}"
                 app:layout_constraintLeft_toRightOf="@id/image_from"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Your message" />
@@ -53,6 +59,7 @@
                 android:textColor="@android:color/white"
                 app:layout_constraintLeft_toRightOf="@id/image_from"
                 app:layout_constraintTop_toBottomOf="@id/message_from"
+                app:timeStamp="@{chat.timeStamp}"
                 tools:text="At 09/07/2020 11:42:11" />
 
 

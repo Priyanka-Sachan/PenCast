@@ -15,8 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentChatBinding
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
 
 class ChatFragment : Fragment() {
 
@@ -25,7 +23,7 @@ class ChatFragment : Fragment() {
     lateinit var chatViewModel: ChatViewModel
     lateinit var chatViewModelFactory: ChatViewModelFactory
 
-    private lateinit var chatAdapter: GroupAdapter<GroupieViewHolder>
+    private lateinit var chatAdapter: ChatAdapter
     private lateinit var args: ChatFragmentArgs
 
     private val IMAGE_PICKER_REQUEST_CODE: Int = 2
@@ -49,7 +47,7 @@ class ChatFragment : Fragment() {
         binding.chatViewModel = chatViewModel
         binding.lifecycleOwner = this
 
-        chatAdapter = GroupAdapter<GroupieViewHolder>()
+        chatAdapter = ChatAdapter(chatViewModel.sender.profileImage,chatViewModel.receiver.profileImage)
         binding.chatRecyclerView.adapter = chatAdapter
 
         binding.chatMessage.addTextChangedListener(object : TextWatcher {
@@ -73,25 +71,8 @@ class ChatFragment : Fragment() {
             }
         }
 
-        chatViewModel.latestChat.observe(viewLifecycleOwner, Observer { chat ->
-            if (chat != null) {
-                if (chat.type == "text") {
-                    if (chat.senderId == chatViewModel.sender.uid)
-                        chatAdapter.add(ChatToTextItem(chat, chatViewModel.sender.profileImage))
-                    else
-                        chatAdapter.add(ChatFromTextItem(chat, chatViewModel.receiver.profileImage))
-                } else {
-                    if (chat.senderId == chatViewModel.sender.uid)
-                        chatAdapter.add(ChatToImageItem(chat, chatViewModel.sender.profileImage))
-                    else
-                        chatAdapter.add(
-                            ChatFromImageItem(
-                                chat,
-                                chatViewModel.receiver.profileImage
-                            )
-                        )
-                }
-            }
+        chatViewModel.chat.observe(viewLifecycleOwner, Observer {
+            chatAdapter.submitList(it)
         })
 
         binding.chatPickImage.setOnClickListener {
@@ -108,26 +89,6 @@ class ChatFragment : Fragment() {
         if (requestCode == IMAGE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val selectedPhotoUri = data.data
             chatViewModel.uploadImage(selectedPhotoUri)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val iterate = chatViewModel.chat.value?.iterator()
-        if (iterate != null) {
-            for (chat in iterate) {
-                if (chat.type == "text") {
-                    if (chat.senderId == chatViewModel.sender.uid)
-                        chatAdapter.add(ChatToTextItem(chat, chatViewModel.sender.profileImage))
-                    else
-                        chatAdapter.add(ChatFromTextItem(chat, chatViewModel.receiver.profileImage))
-                } else {
-                    if (chat.senderId == chatViewModel.sender.uid)
-                        chatAdapter.add(ChatToImageItem(chat, chatViewModel.sender.profileImage))
-                    else
-                        chatAdapter.add(ChatFromImageItem(chat, chatViewModel.receiver.profileImage))
-                }
-            }
         }
     }
 }
