@@ -8,12 +8,12 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.example.pencast.MainActivity
@@ -113,20 +113,25 @@ class SignUpFragment : Fragment() {
     }
 
     private fun uploadProfileImage() {
-        var imageUrl =
-            "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a"
+        val uid = FirebaseAuth.getInstance().uid
+        val storage = FirebaseStorage.getInstance().getReference("/profileImages/${uid}")
         if (selectedPhotoUri != null) {
-            val uid = FirebaseAuth.getInstance().uid
-            val storage = FirebaseStorage.getInstance().getReference("/profileImages/${uid}")
             storage.putFile(selectedPhotoUri!!)
                 .addOnSuccessListener {
                     storage.downloadUrl.addOnSuccessListener {
-                        imageUrl = it.toString()
                         addUserToDatabase(it.toString())
                     }
                 }
-        } else
-            addUserToDatabase(imageUrl)
+        } else {
+            val profileImage =
+                Uri.parse("android.resource://com.example.pencast/" + R.drawable.default_profile)
+            storage.putFile(profileImage)
+                .addOnSuccessListener {
+                    storage.downloadUrl.addOnSuccessListener {
+                        addUserToDatabase(it.toString())
+                    }
+                }
+        }
     }
 
     private fun addUserToDatabase(imageUrl: String) {
