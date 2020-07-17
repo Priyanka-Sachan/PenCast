@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:maxWidth="200dp"
+                android:maxLines="1"
                 android:padding="4dp"
                 android:textColor="@android:color/white"
                 app:layout_constraintLeft_toRightOf="@id/image_from"

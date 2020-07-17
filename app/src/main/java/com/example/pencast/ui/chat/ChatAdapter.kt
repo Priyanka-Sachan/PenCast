@@ -1,6 +1,7 @@
 package com.example.pencast.ui.chat
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,7 +12,10 @@ import com.example.pencast.databinding.CardChatToImageBinding
 import com.example.pencast.databinding.CardChatToTextBinding
 import com.google.firebase.auth.FirebaseAuth
 
-class ChatAdapter(private val senderProfileImage: String, private val receiverProfileImage: String) :
+class ChatAdapter(
+    private val senderProfileImage: String,
+    private val receiverProfileImage: String
+) :
     ListAdapter<Chat,
             RecyclerView.ViewHolder>(ChatDiffCallback()) {
 
@@ -119,6 +123,39 @@ class ChatAdapter(private val senderProfileImage: String, private val receiverPr
             is ChatFromTextViewHolder -> holder.bind(item, receiverProfileImage)
             is ChatFromImageViewHolder -> holder.bind(item, receiverProfileImage)
         }
+        //For grouping fix
+//        if (position > 0) {
+//            val oldViewType = getItemViewType(position - 1)
+//            when (holder) {
+//                is ChatToTextViewHolder -> {
+//                    if (oldViewType <= 2) holder.binding.imageTo.visibility = View.INVISIBLE
+//                    else
+//                        holder.binding.imageTo.visibility = View.VISIBLE
+//                }
+//                is ChatToImageViewHolder -> {
+//                    if (oldViewType <= 2) holder.binding.imageTo.visibility = View.INVISIBLE
+//                    else
+//                        holder.binding.imageTo.visibility = View.VISIBLE
+//                }
+//                is ChatFromTextViewHolder -> {
+//                    if (oldViewType > 2) holder.binding.imageFrom.visibility = View.INVISIBLE
+//                    else
+//                        holder.binding.imageFrom.visibility = View.VISIBLE
+//                }
+//                is ChatFromImageViewHolder -> {
+//                    if (oldViewType > 2) holder.binding.imageFrom.visibility = View.INVISIBLE
+//                    else
+//                        holder.binding.imageFrom.visibility = View.VISIBLE
+//                }
+//            }
+//        } else {
+//            when (holder) {
+//                is ChatToTextViewHolder -> holder.binding.imageTo.visibility = View.VISIBLE
+//                is ChatToImageViewHolder -> holder.binding.imageTo.visibility = View.VISIBLE
+//                is ChatFromTextViewHolder -> holder.binding.imageFrom.visibility = View.VISIBLE
+//                is ChatFromImageViewHolder -> holder.binding.imageFrom.visibility = View.VISIBLE
+//            }
+//        }
     }
 }
 
