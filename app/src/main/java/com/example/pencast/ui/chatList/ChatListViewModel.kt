@@ -1,15 +1,16 @@
-
 package com.example.pencast.ui.chatList
 
 import android.app.Application
-import android.util.Log
+import android.app.NotificationManager
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.pencast.notification.sendNewMessageNotification
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class ChatListViewModel(application: Application) : AndroidViewModel(application) {
+class ChatListViewModel(private val app: Application) : AndroidViewModel(app) {
 
     private var childEventListener: ChildEventListener? = null
     private var database: DatabaseReference
@@ -18,7 +19,13 @@ class ChatListViewModel(application: Application) : AndroidViewModel(application
     val chatLists: LiveData<MutableList<ChatList>>
         get() = _chatLists
 
-    private var chatList= ArrayList<ChatList>()
+    val notificationManager = ContextCompat.getSystemService(
+        app,
+        NotificationManager::class.java
+    ) as NotificationManager
+
+
+    private var chatList = ArrayList<ChatList>()
 
     init {
         val uid = FirebaseAuth.getInstance().uid
@@ -34,12 +41,18 @@ class ChatListViewModel(application: Application) : AndroidViewModel(application
                         dataSnapshot.getValue(ChatList::class.java)
                     if (chat != null) {
                         chatList.add(chat)
-                        _chatLists.value=chatList
-                        Log.e("ChatListViewModel", _chatLists.value?.size.toString())
+                        _chatLists.value = chatList
                     }
                 }
 
-                override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}
+                override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
+                    val chat: ChatList? =
+                        dataSnapshot.getValue(ChatList::class.java)
+                    if (chat != null) {
+                        notificationManager.sendNewMessageNotification(chat, app)
+                    }
+                }
+
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
                 override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
                 override fun onCancelled(databaseError: DatabaseError) {}

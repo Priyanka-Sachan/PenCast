@@ -46,6 +46,7 @@
                 android:layout_margin="4dp"
                 android:maxWidth="200dp"
                 android:padding="4dp"
+                android:maxLines="1"
                 android:textColor="@android:color/white"
                 app:layout_constraintRight_toLeftOf="@id/image_to"
                 app:layout_constraintTop_toBottomOf="@id/image_message_to"
