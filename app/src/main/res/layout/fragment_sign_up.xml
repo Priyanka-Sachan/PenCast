@@ -9,7 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp">
+        android:background="@color/colorPrimary"
+        android:padding="16dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/sign_up_profile"
@@ -38,36 +39,46 @@
             android:id="@+id/sign_up_username_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:hintEnabled="false"
             app:layout_constraintBottom_toTopOf="@id/sign_up_email_layout"
             app:layout_constraintTop_toBottomOf="@id/sign_up_profile">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sign_up_username"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_card_more"
                 android:hint="USERNAME :"
-                android:inputType="text" />
+                android:inputType="text"
+                android:padding="8dp"
+                android:paddingStart="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sign_up_email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             app:layout_constraintBottom_toTopOf="@id/sign_up_password_layout"
             app:layout_constraintTop_toBottomOf="@id/sign_up_username_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sign_up_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_card_more"
                 android:hint="EMAIL :"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:padding="8dp"
+                android:paddingStart="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sign_up_password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             app:layout_constraintBottom_toTopOf="@id/sign_up_button"
             app:layout_constraintTop_toBottomOf="@id/sign_up_email_layout"
             app:passwordToggleEnabled="true">
@@ -75,15 +86,19 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sign_up_password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_card_more"
                 android:hint="PASSWORD :"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:padding="8dp"
+                android:paddingStart="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/sign_up_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
             android:text="SIGN UP"
             app:layout_constraintBottom_toTopOf="@id/action_sign_in"
             app:layout_constraintTop_toBottomOf="@id/sign_up_password_layout" />
