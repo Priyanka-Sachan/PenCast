@@ -57,13 +57,17 @@
     </dialog>
 
     <fragment
-        android:id="@+id/profileFragment"
+        android:id="@+id/navigation_profile"
         android:name="com.example.pencast.ui.profile.ProfileFragment"
         android:label="My Profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/navigation_follower"
-        android:name="com.example.pencast.follower.FollowerFragment"
-        android:label="FollowerFragment" />
+        android:name="com.example.pencast.ui.follower.FollowerFragment"
+        android:label="Follow Mates" >
+        <action
+            android:id="@+id/action_navigation_follower_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
 </navigation>

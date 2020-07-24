@@ -1,4 +1,4 @@
-package com.example.pencast.follower
+package com.example.pencast.ui.follower
 
 import android.os.Bundle
 import android.util.Log

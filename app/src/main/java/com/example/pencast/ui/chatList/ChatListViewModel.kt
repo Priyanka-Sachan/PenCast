@@ -29,7 +29,7 @@ class ChatListViewModel(private val app: Application) : AndroidViewModel(app) {
 
     init {
         val uid = FirebaseAuth.getInstance().uid
-        database = FirebaseDatabase.getInstance().getReference("/Latest-Messages/$uid")
+        database = FirebaseDatabase.getInstance().getReference("Users/$uid/chat-room")
         attachDatabaseReadListener()
     }
 

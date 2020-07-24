@@ -11,7 +11,7 @@
 
         <variable
             name="followerClickListener"
-            type="com.example.pencast.follower.FollowerClickListener" />
+            type="com.example.pencast.ui.follower.FollowerClickListener" />
 
     </data>
 
@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
         android:layout_marginVertical="2dp"
+        android:onClick="@{()->followerClickListener.onClick(follower)}"
         app:cardCornerRadius="15dp"
         app:cardElevation="0dp">
 
@@ -59,14 +60,6 @@
                     android:text="@{follower.status}"
                     tools:text="Status" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/is_follower"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:onClick="@{()->followerClickListener.onClick(follower)}"
-                android:text="FRIEND NOW?" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

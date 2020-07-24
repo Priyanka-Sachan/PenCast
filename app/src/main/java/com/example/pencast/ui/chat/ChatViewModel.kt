@@ -19,7 +19,6 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
 
     private lateinit var messageDatabase: DatabaseReference
     private var userDatabase: DatabaseReference
-    private var latestMessageDatabase: DatabaseReference
 
     private lateinit var thread: String
     lateinit var sender: User
@@ -33,7 +32,6 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
     init {
         getSenderData()
         getPath()
-        latestMessageDatabase = FirebaseDatabase.getInstance().getReference("/Latest-Messages")
         userDatabase = FirebaseDatabase.getInstance().getReference("/Users")
         attachDatabaseReadListener()
     }
@@ -53,24 +51,24 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
     }
 
     private fun getPath() {
-        val firstPerson: String
-        val secondPerson: String
+        val firstPerson: User
+        val secondPerson: User
         if (receiver.uid > sender.uid) {
-            firstPerson = receiver.uid
-            secondPerson = sender.uid
+            firstPerson = receiver
+            secondPerson = sender
         } else {
-            firstPerson = sender.uid
-            secondPerson = receiver.uid
+            firstPerson = sender
+            secondPerson = receiver
         }
-        thread = "$firstPerson-$secondPerson"
+        thread = "${firstPerson.uid}-${secondPerson.uid}"
         messageDatabase = FirebaseDatabase.getInstance().getReference("/Messages/$thread")
-        messageDatabase.child("firstPerson").setValue(firstPerson)
-        messageDatabase.child("secondPerson").setValue(secondPerson)
+        messageDatabase.child("firstPerson").setValue(firstPerson.uid)
+        messageDatabase.child("secondPerson").setValue(secondPerson.uid)
     }
 
     fun sendMessageToDatabase(type: String, message: String) {
         val timeStamp = System.currentTimeMillis()
-        val senderMessageObject = messageDatabase.child("${thread}@${timeStamp}")
+        val senderMessageObject = messageDatabase.child("messages/${thread}@${timeStamp}")
         senderMessageObject.setValue(Chat(type, message, sender.uid, receiver.uid, timeStamp))
 
         val updatedMessage: String = if (type == "image")
@@ -78,12 +76,7 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
         else
             message
 
-
-        userDatabase.child(sender.uid).child("chat-room").child(thread).setValue(thread)
-        userDatabase.child(receiver.uid).child("chat-room").child(thread).setValue(thread)
-
-        val latestSenderMessageObject = latestMessageDatabase.child(sender.uid).child(receiver.uid)
-        latestSenderMessageObject.setValue(
+        userDatabase.child(sender.uid).child("chat-room").child(thread).setValue(
             ChatList(
                 receiver.uid,
                 receiver.username,
@@ -93,14 +86,12 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
                 timeStamp
             )
         )
-        val latestReceiverMessageObject =
-            latestMessageDatabase.child(receiver.uid).child(sender.uid)
-        latestReceiverMessageObject.setValue(
+        userDatabase.child(receiver.uid).child("chat-room").child(thread).setValue(
             ChatList(
-                sender.uid,
-                sender.username,
-                sender.profileImage,
-                sender.status,
+                receiver.uid,
+                receiver.username,
+                receiver.profileImage,
+                receiver.status,
                 updatedMessage,
                 timeStamp
             )
@@ -138,7 +129,8 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
                 override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
                 override fun onCancelled(databaseError: DatabaseError) {}
             }
-            messageDatabase.addChildEventListener(childEventListener as ChildEventListener)
+            messageDatabase.child("messages")
+                .addChildEventListener(childEventListener as ChildEventListener)
         }
     }
 }
