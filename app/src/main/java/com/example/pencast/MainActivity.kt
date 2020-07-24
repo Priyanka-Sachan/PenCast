@@ -67,6 +67,10 @@ class MainActivity : AppCompatActivity() {
                 findNavController(R.id.nav_host_fragment).navigate(R.id.profileFragment)
                 return true
             }
+
+            R.id.menu_follow_people -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_follower)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

@@ -4,20 +4,25 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.preference.PreferenceManager
 import com.example.pencast.login.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class FriendViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val myUid =
+        PreferenceManager.getDefaultSharedPreferences(getApplication()).getString("UID", "No-Uid")
+
     private var childEventListener: ChildEventListener? = null
-    private var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("/Users")
+    private var database: DatabaseReference =
+        FirebaseDatabase.getInstance().getReference("/Users/$myUid/follower")
 
     private var _friends = MutableLiveData<MutableList<User>>()
     val friends: LiveData<MutableList<User>>
         get() = _friends
 
-    init{
+    init {
         attachDatabaseReadListener()
     }
 
