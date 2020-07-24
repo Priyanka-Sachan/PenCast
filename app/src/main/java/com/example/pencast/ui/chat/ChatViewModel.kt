@@ -51,11 +51,19 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
     }
 
     private fun getPath() {
-        thread = if (receiver.uid > sender.uid)
-            receiver.uid + sender.uid
-        else
-            sender.uid + receiver.uid
+        val firstPerson: String
+        val secondPerson: String
+        if (receiver.uid > sender.uid) {
+            firstPerson = receiver.uid
+            secondPerson = sender.uid
+        } else {
+            firstPerson = sender.uid
+            secondPerson = receiver.uid
+        }
+        thread = "$firstPerson-$secondPerson"
         messageDatabase = FirebaseDatabase.getInstance().getReference("/Messages/$thread")
+        messageDatabase.child("firstPerson").setValue(firstPerson)
+        messageDatabase.child("secondPerson").setValue(secondPerson)
     }
 
     fun sendMessageToDatabase(type: String, message: String) {
