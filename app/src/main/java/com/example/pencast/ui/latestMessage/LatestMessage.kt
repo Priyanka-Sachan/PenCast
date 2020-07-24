@@ -1,6 +1,6 @@
-package com.example.pencast.ui.chatList
+package com.example.pencast.ui.latestMessage
 
-data class ChatList(
+data class LatestMessage(
     var uid: String,
     var username: String,
     var profileImage: String,

@@ -1,4 +1,4 @@
-package com.example.pencast.ui.chatList
+package com.example.pencast.ui.latestMessage
 
 import android.app.Application
 import android.app.NotificationManager
@@ -6,18 +6,17 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.pencast.notification.sendNewMessageNotification
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class ChatListViewModel(private val app: Application) : AndroidViewModel(app) {
+class LatestMessageViewModel(app: Application) : AndroidViewModel(app) {
 
     private var childEventListener: ChildEventListener? = null
     private var database: DatabaseReference
 
-    private var _chatLists = MutableLiveData<MutableList<ChatList>>()
-    val chatLists: LiveData<MutableList<ChatList>>
-        get() = _chatLists
+    private var _latestMessage = MutableLiveData<MutableList<LatestMessage>>()
+    val latestMessage: LiveData<MutableList<LatestMessage>>
+        get() = _latestMessage
 
     val notificationManager = ContextCompat.getSystemService(
         app,
@@ -25,7 +24,7 @@ class ChatListViewModel(private val app: Application) : AndroidViewModel(app) {
     ) as NotificationManager
 
 
-    private var chatList = ArrayList<ChatList>()
+    private var latestMessageList = ArrayList<LatestMessage>()
 
     init {
         val uid = FirebaseAuth.getInstance().uid
@@ -37,19 +36,32 @@ class ChatListViewModel(private val app: Application) : AndroidViewModel(app) {
         if (childEventListener == null) {
             childEventListener = object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                    val chat: ChatList? =
-                        dataSnapshot.getValue(ChatList::class.java)
+                    val chat: LatestMessage? =
+                        dataSnapshot.getValue(LatestMessage::class.java)
                     if (chat != null) {
-                        chatList.add(chat)
-                        _chatLists.value = chatList
+                        latestMessageList.add(chat)
+                        latestMessageList.sortedBy {
+                            it.timeStamp
+                        }
+                        _latestMessage.value = latestMessageList
                     }
                 }
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
-                    val chat: ChatList? =
-                        dataSnapshot.getValue(ChatList::class.java)
+                    val chat: LatestMessage? =
+                        dataSnapshot.getValue(LatestMessage::class.java)
                     if (chat != null) {
-                        notificationManager.sendNewMessageNotification(chat, app)
+                        val it: MutableIterator<LatestMessage> = latestMessageList.iterator()
+                        while (it.hasNext()) {
+                            if (it.next().uid == chat.uid) {
+                                it.remove()
+                            }
+                        }
+                        latestMessageList.sortedBy {
+                            it.timeStamp
+                        }
+                        latestMessageList.add(chat)
+                        _latestMessage.value = latestMessageList
                     }
                 }
 

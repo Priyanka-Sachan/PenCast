@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 import com.example.pencast.login.User
-import com.example.pencast.ui.chatList.ChatList
+import com.example.pencast.ui.latestMessage.LatestMessage
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
@@ -77,7 +77,7 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
             message
 
         userDatabase.child(sender.uid).child("chat-room").child(thread).setValue(
-            ChatList(
+            LatestMessage(
                 receiver.uid,
                 receiver.username,
                 receiver.profileImage,
@@ -87,7 +87,7 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
             )
         )
         userDatabase.child(receiver.uid).child("chat-room").child(thread).setValue(
-            ChatList(
+            LatestMessage(
                 receiver.uid,
                 receiver.username,
                 receiver.profileImage,

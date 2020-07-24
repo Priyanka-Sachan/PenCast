@@ -6,18 +6,18 @@
     <data>
 
         <variable
-            name="chatList"
-            type="com.example.pencast.ui.chatList.ChatList" />
+            name="latestMessage"
+            type="com.example.pencast.ui.latestMessage.LatestMessage" />
 
         <variable
-            name="chatListClickListener"
-            type="com.example.pencast.ui.chatList.ChatListClickListener" />
+            name="latestMessageClickListener"
+            type="com.example.pencast.ui.latestMessage.LatestMessageClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()->chatListClickListener.onClick(chatList)}"
+        android:onClick="@{()->latestMessageClickListener.onClick(latestMessage)}"
         app:cardBackgroundColor="@color/colorPrimary"
         app:cardElevation="0dp">
 
@@ -33,7 +33,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{chatList.profileImage}"
+                app:imageUrl="@{latestMessage.profileImage}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@mipmap/ic_launcher_round" />
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:maxLines="1"
-                android:text="@{chatList.username}"
+                android:text="@{latestMessage.username}"
                 android:textSize="16sp"
                 app:layout_constraintLeft_toRightOf="@id/chat_list_profile_image"
                 app:layout_constraintTop_toTopOf="parent"
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:maxLines="2"
-                android:text="@{chatList.message}"
+                android:text="@{latestMessage.message}"
                 app:layout_constraintLeft_toRightOf="@id/chat_list_profile_image"
                 app:layout_constraintTop_toBottomOf="@id/chat_list_username"
                 tools:text="Your latest message" />
@@ -68,7 +68,7 @@
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:timeStampShort="@{chatList.timeStamp}"
+                app:timeStampShort="@{latestMessage.timeStamp}"
                 tools:text="At 09/07/2020" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
