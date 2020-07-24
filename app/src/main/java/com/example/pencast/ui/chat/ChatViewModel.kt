@@ -18,6 +18,7 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
     private var childEventListener: ChildEventListener? = null
 
     private lateinit var messageDatabase: DatabaseReference
+    private var userDatabase: DatabaseReference
     private var latestMessageDatabase: DatabaseReference
 
     private lateinit var thread: String
@@ -33,6 +34,7 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
         getSenderData()
         getPath()
         latestMessageDatabase = FirebaseDatabase.getInstance().getReference("/Latest-Messages")
+        userDatabase = FirebaseDatabase.getInstance().getReference("/Users")
         attachDatabaseReadListener()
     }
 
@@ -75,6 +77,10 @@ class ChatViewModel(var application: Application, var receiver: User) : ViewMode
             "Image"
         else
             message
+
+
+        userDatabase.child(sender.uid).child("chat-room").child(thread).setValue(thread)
+        userDatabase.child(receiver.uid).child("chat-room").child(thread).setValue(thread)
 
         val latestSenderMessageObject = latestMessageDatabase.child(sender.uid).child(receiver.uid)
         latestSenderMessageObject.setValue(
