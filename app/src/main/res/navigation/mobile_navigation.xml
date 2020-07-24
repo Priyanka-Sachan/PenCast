@@ -18,29 +18,16 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_chat_list"
-        android:name="com.example.pencast.ui.chatList.ChatListFragment"
-        android:label="@string/title_chats"
-        tools:layout="@layout/fragment_chat_list">
-        <action
-            android:id="@+id/action_navigation_chat_list_to_navigation_chat"
-            app:destination="@id/navigation_chat" />
-        <action
-            android:id="@+id/action_navigation_chat_list_to_navigation_friends"
-            app:destination="@id/navigation_friends" />
-    </fragment>
-
-    <fragment
         android:id="@+id/navigation_chat"
         android:name="com.example.pencast.ui.chat.ChatFragment"
         android:label="Chat"
         tools:layout="@layout/fragment_chat">
-        <action
-            android:id="@+id/action_navigation_chat_to_navigation_chat_list"
-            app:destination="@id/navigation_chat_list" />
         <argument
             android:name="friend"
             app:argType="com.example.pencast.login.User" />
+        <action
+            android:id="@+id/action_navigation_chat_to_navigation_latest_message"
+            app:destination="@id/navigation_latest_message" />
     </fragment>
 
     <dialog
@@ -52,8 +39,8 @@
             android:id="@+id/action_navigation_friends_to_navigation_chat"
             app:destination="@id/navigation_chat" />
         <action
-            android:id="@+id/action_navigation_friends_to_navigation_chat_list"
-            app:destination="@id/navigation_chat_list" />
+            android:id="@+id/action_navigation_friends_to_navigation_latest_message"
+            app:destination="@id/navigation_latest_message" />
     </dialog>
 
     <fragment
@@ -69,5 +56,17 @@
         <action
             android:id="@+id/action_navigation_follower_to_navigation_profile"
             app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_latest_message"
+        android:name="com.example.pencast.ui.latestMessage.LatestMessageFragment"
+        android:label="Latest Message"
+        tools:layout="@layout/fragment_latest_message" >
+        <action
+            android:id="@+id/action_navigation_latest_message_to_navigation_chat"
+            app:destination="@id/navigation_chat" />
+        <action
+            android:id="@+id/action_navigation_latest_message_to_navigation_friends"
+            app:destination="@id/navigation_friends" />
     </fragment>
 </navigation>

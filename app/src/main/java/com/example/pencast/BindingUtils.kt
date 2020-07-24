@@ -6,7 +6,7 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.card_chat_list.view.*
+import kotlinx.android.synthetic.main.card_latest_message.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
