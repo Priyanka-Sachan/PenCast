@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_latest_message
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_me
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -61,10 +61,6 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
                 moveToLogin()
-                return true
-            }
-            R.id.menu_my_profile -> {
-                findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_profile)
                 return true
             }
 

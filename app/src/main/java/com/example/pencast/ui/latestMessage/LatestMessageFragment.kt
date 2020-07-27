@@ -9,12 +9,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentLatestMessageBinding
 import com.example.pencast.login.User
+import com.example.pencast.me.MeFragmentDirections
 
 class LatestMessageFragment : Fragment() {
+
+    companion object {
+        fun newInstance() =
+            LatestMessageFragment()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
 
     private lateinit var binding: FragmentLatestMessageBinding
 
@@ -36,8 +47,8 @@ class LatestMessageFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val latestMessageAdapter = LatestMessageAdapter(LatestMessageClickListener { it ->
-            NavHostFragment.findNavController(this@LatestMessageFragment).navigate(
-                LatestMessageFragmentDirections.actionNavigationLatestMessageToNavigationChat(
+            NavHostFragment.findNavController(requireParentFragment()).navigate(
+                MeFragmentDirections.actionNavigationMeToNavigationChat(
                     User(
                         it.uid,
                         it.username,
@@ -54,7 +65,7 @@ class LatestMessageFragment : Fragment() {
         })
 
         binding.newConversationButton.setOnClickListener {
-            findNavController().navigate(LatestMessageFragmentDirections.actionNavigationLatestMessageToNavigationFriends())
+            NavHostFragment.findNavController(requireParentFragment()).navigate(MeFragmentDirections.actionNavigationMeToNavigationFriends())
         }
 
         return binding.root
