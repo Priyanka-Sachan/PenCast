@@ -12,6 +12,11 @@ import com.example.pencast.databinding.FragmentFollowerBinding
 
 class FollowerFragment : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
+
     private lateinit var followerViewModel: FollowerViewModel
 
     override fun onCreateView(

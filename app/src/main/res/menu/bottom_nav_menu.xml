@@ -12,7 +12,7 @@
         android:title="@string/title_dashboard" />
 
     <item
-        android:id="@+id/navigation_latest_message"
+        android:id="@+id/navigation_me"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_chats" />
 

@@ -9,13 +9,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentLatestMessageBinding
 import com.example.pencast.login.User
+import com.example.pencast.me.MeFragmentDirections
 
 class LatestMessageFragment : Fragment() {
+
+    companion object {
+        fun newInstance() =
+            LatestMessageFragment()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
 
     private lateinit var binding: FragmentLatestMessageBinding
 
@@ -37,8 +47,8 @@ class LatestMessageFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val latestMessageAdapter = LatestMessageAdapter(LatestMessageClickListener { it ->
-            NavHostFragment.findNavController(this@LatestMessageFragment).navigate(
-                LatestMessageFragmentDirections.actionNavigationLatestMessageToNavigationChat(
+            NavHostFragment.findNavController(requireParentFragment()).navigate(
+                MeFragmentDirections.actionNavigationMeToNavigationChat(
                     User(
                         it.uid,
                         it.username,
@@ -55,26 +65,7 @@ class LatestMessageFragment : Fragment() {
         })
 
         binding.newConversationButton.setOnClickListener {
-            findNavController().navigate(LatestMessageFragmentDirections.actionNavigationLatestMessageToNavigationFriends())
-        }
-
-        binding.profileButton.setOnClickListener {
-            val sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(requireActivity().application)
-
-            NavHostFragment.findNavController(this@LatestMessageFragment).navigate(
-                LatestMessageFragmentDirections.actionNavigationLatestMessageToNavigationProfile(
-                    User(
-                        sharedPreferences.getString("UID", "No-Uid")!!,
-                        sharedPreferences.getString("USERNAME", "Guest User")!!,
-                        sharedPreferences.getString(
-                            "PROFILE_IMAGE_URL",
-                            "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a"
-                        )!!,
-                        sharedPreferences.getString("STATUS", "Come join us at PenCast!!")!!
-                    )
-                )
-            )
+            NavHostFragment.findNavController(requireParentFragment()).navigate(MeFragmentDirections.actionNavigationMeToNavigationFriends())
         }
 
         return binding.root
