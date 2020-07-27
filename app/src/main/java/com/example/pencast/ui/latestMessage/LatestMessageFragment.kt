@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentLatestMessageBinding
 import com.example.pencast.login.User
@@ -55,6 +56,25 @@ class LatestMessageFragment : Fragment() {
 
         binding.newConversationButton.setOnClickListener {
             findNavController().navigate(LatestMessageFragmentDirections.actionNavigationLatestMessageToNavigationFriends())
+        }
+
+        binding.profileButton.setOnClickListener {
+            val sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(requireActivity().application)
+
+            NavHostFragment.findNavController(this@LatestMessageFragment).navigate(
+                LatestMessageFragmentDirections.actionNavigationLatestMessageToNavigationProfile(
+                    User(
+                        sharedPreferences.getString("UID", "No-Uid")!!,
+                        sharedPreferences.getString("USERNAME", "Guest User")!!,
+                        sharedPreferences.getString(
+                            "PROFILE_IMAGE_URL",
+                            "https://firebasestorage.googleapis.com/v0/b/pencast-1163e.appspot.com/o/profileImages%2FdeaultProfile.png?alt=media&token=d088380e-1465-4b3e-883b-69362271c84a"
+                        )!!,
+                        sharedPreferences.getString("STATUS", "Come join us at PenCast!!")!!
+                    )
+                )
+            )
         }
 
         return binding.root

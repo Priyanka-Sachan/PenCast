@@ -47,7 +47,11 @@
         android:id="@+id/navigation_profile"
         android:name="com.example.pencast.ui.profile.ProfileFragment"
         android:label="My Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <argument
+            android:name="profile"
+            app:argType="com.example.pencast.login.User" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_follower"
@@ -68,5 +72,12 @@
         <action
             android:id="@+id/action_navigation_latest_message_to_navigation_friends"
             app:destination="@id/navigation_friends" />
+        <action
+            android:id="@+id/action_navigation_latest_message_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
     </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.pencast.MainActivity"
+        android:label="MainActivity" />
 </navigation>

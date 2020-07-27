@@ -10,18 +10,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentProfileBinding
+import com.example.pencast.login.User
+import com.google.firebase.auth.FirebaseAuth
 
 class ProfileFragment : Fragment() {
 
     lateinit var binding: FragmentProfileBinding
 
-    private val profileViewModel: ProfileViewModel by activityViewModels()
+    private lateinit var profileViewModel: ProfileViewModel
 
     private val IMAGE_PICKER_REQUEST_CODE: Int = 3
+    private lateinit var profile: User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +37,36 @@ class ProfileFragment : Fragment() {
             false
         )
 
-        binding.profileViewModel = profileViewModel
+        val args = ProfileFragmentArgs.fromBundle(requireArguments())
+        profile = args.profile
 
+        val profileModelFactory = ProfileModelFactory(requireActivity().application, profile)
+        profileViewModel =
+            ViewModelProvider(this, profileModelFactory).get(ProfileViewModel::class.java)
+        binding.profileViewModel = profileViewModel
+        binding.lifecycleOwner = this
+
+        if (profile.uid == FirebaseAuth.getInstance().uid)
+            userView()
+        else
+            othersView()
+
+        return binding.root
+    }
+
+    private fun othersView() {
+        binding.authEditStatus.visibility = View.INVISIBLE
+        binding.authPickImage.visibility = View.INVISIBLE
+        binding.profileFollow.visibility = View.VISIBLE
+
+        binding.profileFollow.setOnClickListener {
+            profileViewModel.addUserToFollow(profile)
+        }
+    }
+
+    private fun userView() {
+
+        profileViewModel.attachDatabaseListener()
 
         binding.authEditStatus.setOnClickListener {
             binding.authStatus.isEnabled = true
@@ -68,8 +99,6 @@ class ProfileFragment : Fragment() {
             imagePickerIntent.type = "image/*"
             startActivityForResult(imagePickerIntent, IMAGE_PICKER_REQUEST_CODE)
         }
-
-        return binding.root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
