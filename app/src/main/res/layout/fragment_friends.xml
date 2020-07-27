@@ -5,6 +5,7 @@
     tools:context=".ui.friend.FriendsFragment">
 
     <data>
+
         <variable
             name="friendViewModel"
             type="com.example.pencast.ui.friend.FriendViewModel" />
@@ -13,16 +14,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/rounded_card_half"
-        android:backgroundTint="@color/colorPrimary">
+        android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/find_friend_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:background="@drawable/rounded_card_half"
-            android:backgroundTint="@color/colorPrimaryDark"
             android:padding="8dp"
             android:text="Find friends"
             android:textColor="@android:color/white"
