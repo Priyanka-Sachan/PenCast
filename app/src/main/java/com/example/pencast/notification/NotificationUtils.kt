@@ -9,7 +9,7 @@ import androidx.core.app.NotificationCompat
 import com.example.pencast.notification.App.Companion.NEW_MESSAGE_CHANNEL_ID
 import com.example.pencast.MainActivity
 import com.example.pencast.R
-import com.example.pencast.ui.latestMessage.LatestMessage
+import com.example.pencast.ui.me.latestMessage.LatestMessage
 
 fun NotificationManager.sendNewMessageNotification(
     latestChat: LatestMessage,

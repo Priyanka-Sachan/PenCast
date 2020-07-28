@@ -1,4 +1,4 @@
-package com.example.pencast.ui.latestMessage
+package com.example.pencast.ui.me.latestMessage
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
-import androidx.preference.PreferenceManager
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentLatestMessageBinding
 import com.example.pencast.login.User
-import com.example.pencast.me.MeFragmentDirections
+import com.example.pencast.ui.me.MeFragmentDirections
 
 class LatestMessageFragment : Fragment() {
 
@@ -46,18 +45,20 @@ class LatestMessageFragment : Fragment() {
         latestMessageViewModel = ViewModelProvider(this).get(LatestMessageViewModel::class.java)
         binding.lifecycleOwner = this
 
-        val latestMessageAdapter = LatestMessageAdapter(LatestMessageClickListener { it ->
-            NavHostFragment.findNavController(requireParentFragment()).navigate(
-                MeFragmentDirections.actionNavigationMeToNavigationChat(
-                    User(
-                        it.uid,
-                        it.username,
-                        it.profileImage,
-                        it.status
+        val latestMessageAdapter =
+            LatestMessageAdapter(
+                LatestMessageClickListener {
+                    NavHostFragment.findNavController(requireParentFragment()).navigate(
+                        MeFragmentDirections.actionNavigationMeToNavigationChat(
+                            User(
+                                it.uid,
+                                it.username,
+                                it.profileImage,
+                                it.status
+                            )
+                        )
                     )
-                )
-            )
-        })
+                })
         binding.latestMessageRecyclerView.adapter = latestMessageAdapter
 
         latestMessageViewModel.latestMessage.observe(viewLifecycleOwner, Observer {

@@ -7,11 +7,11 @@
 
         <variable
             name="latestMessage"
-            type="com.example.pencast.ui.latestMessage.LatestMessage" />
+            type="com.example.pencast.ui.me.latestMessage.LatestMessage" />
 
         <variable
             name="latestMessageClickListener"
-            type="com.example.pencast.ui.latestMessage.LatestMessageClickListener" />
+            type="com.example.pencast.ui.me.latestMessage.LatestMessageClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView

@@ -1,4 +1,4 @@
-package com.example.pencast.ui.latestMessage
+package com.example.pencast.ui.me.latestMessage
 
 import android.app.Application
 import android.app.NotificationManager

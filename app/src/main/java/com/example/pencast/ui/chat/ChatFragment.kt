@@ -47,7 +47,8 @@ class ChatFragment : Fragment() {
         binding.chatViewModel = chatViewModel
         binding.lifecycleOwner = this
 
-        chatAdapter = ChatAdapter(chatViewModel.sender.profileImage,chatViewModel.receiver.profileImage)
+        chatAdapter =
+            ChatAdapter(chatViewModel.sender.profileImage, chatViewModel.receiver.profileImage)
         binding.chatRecyclerView.adapter = chatAdapter
 
         binding.chatMessage.addTextChangedListener(object : TextWatcher {
@@ -73,7 +74,7 @@ class ChatFragment : Fragment() {
 
         chatViewModel.chat.observe(viewLifecycleOwner, Observer {
             chatAdapter.submitList(it)
-            binding.chatRecyclerView.scrollToPosition(it.size-1)
+            binding.chatRecyclerView.scrollToPosition(it.size - 1)
         })
 
         binding.chatPickImage.setOnClickListener {
