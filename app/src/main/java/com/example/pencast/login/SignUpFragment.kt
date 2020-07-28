@@ -43,6 +43,13 @@ class SignUpFragment : Fragment() {
         )
 
         binding.signUpButton.setOnClickListener {
+            binding.signUpLoading.visibility = View.VISIBLE
+            binding.signUpPickImage.isEnabled = false
+            binding.signUpButton.isEnabled = false
+            binding.signUpEmail.isEnabled = false
+            binding.signUpPassword.isEnabled = false
+            binding.signUpUsername.isEnabled = false
+            binding.actionSignIn.isEnabled = false
             signUpUser()
         }
         binding.actionSignIn.setOnClickListener {
@@ -104,11 +111,21 @@ class SignUpFragment : Fragment() {
                 uploadProfileImage()
             }
             .addOnFailureListener {
-                Toast.makeText(
-                    activity,
-                    "Failed to create user: ${it.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (activity != null) {
+                    binding.signUpLoading.visibility = View.GONE
+                    binding.signUpPickImage.isEnabled = true
+                    binding.signUpButton.isEnabled = true
+                    binding.signUpEmail.isEnabled = true
+                    binding.signUpPassword.isEnabled = true
+                    binding.signUpUsername.isEnabled = true
+                    binding.actionSignIn.isEnabled = true
+                    Toast.makeText(
+                        activity,
+                        "Failed to create user: ${it.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else
+                    Log.e("SignUpFragment", "User clicked on Sign Up too many times.")
             }
     }
 

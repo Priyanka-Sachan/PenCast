@@ -49,7 +49,6 @@ class NoteListFragment : Fragment() {
         val newNote: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.new_note)
         newNote.setOnClickListener {
-            bottomAppBar.visibility=View.GONE
             findNavController().navigate(R.id.navigation_note)
         }
         return view

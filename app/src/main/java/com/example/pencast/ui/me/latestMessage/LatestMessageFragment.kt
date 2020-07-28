@@ -62,11 +62,13 @@ class LatestMessageFragment : Fragment() {
         binding.latestMessageRecyclerView.adapter = latestMessageAdapter
 
         latestMessageViewModel.latestMessage.observe(viewLifecycleOwner, Observer {
+            binding.emptyMessageList.visibility = View.GONE
             latestMessageAdapter.submitList(it)
         })
 
         binding.newConversationButton.setOnClickListener {
-            NavHostFragment.findNavController(requireParentFragment()).navigate(MeFragmentDirections.actionNavigationMeToNavigationFriends())
+            NavHostFragment.findNavController(requireParentFragment())
+                .navigate(MeFragmentDirections.actionNavigationMeToNavigationFriends())
         }
 
         return binding.root
