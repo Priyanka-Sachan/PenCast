@@ -33,12 +33,14 @@ class ProfileViewModel(var application: Application, var profile: User) : ViewMo
         val uid = FirebaseAuth.getInstance().uid.toString()
         database.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val updatedUser = dataSnapshot.getValue(User::class.java)!!
+                val updatedUser = dataSnapshot.getValue(User::class.java)
                 _user.value = updatedUser
-                val sharedPreferencesEditor = sharedPreferences.edit()
-                sharedPreferencesEditor.putString("STATUS", updatedUser.status)
-                sharedPreferencesEditor.putString("PROFILE_IMAGE_URL", updatedUser.profileImage)
-                sharedPreferencesEditor.apply()
+                if (updatedUser != null) {
+                    val sharedPreferencesEditor = sharedPreferences.edit()
+                    sharedPreferencesEditor.putString("STATUS", updatedUser.status)
+                    sharedPreferencesEditor.putString("PROFILE_IMAGE_URL", updatedUser.profileImage)
+                    sharedPreferencesEditor.apply()
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

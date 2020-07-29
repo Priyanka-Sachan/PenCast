@@ -4,16 +4,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.example.pencast.login.LoginActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
+
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var navController: NavController
+    private lateinit var navView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,21 +28,30 @@ class MainActivity : AppCompatActivity() {
 
         verifyUserIsLoggedIn()
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
+        navView = findViewById(R.id.nav_view)
+        navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_me
+                R.id.navigation_home, R.id.navigation_note_list, R.id.navigation_me
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_chat -> hideBottomNav()
+                R.id.navigation_note -> hideBottomNav()
+                R.id.navigation_note_list -> hideBottomNav()
+                R.id.navigation_follower -> hideBottomNav()
+                else -> showBottomNav()
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = this.findNavController(R.id.nav_host_fragment)
         return navController.navigateUp()
     }
 
@@ -60,6 +76,11 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
+                val preferences =
+                    PreferenceManager.getDefaultSharedPreferences(application)
+                val editor = preferences.edit()
+                editor.clear()
+                editor.apply()
                 moveToLogin()
                 return true
             }
@@ -69,5 +90,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showBottomNav() {
+        navView.visibility = View.VISIBLE
+
+    }
+
+    private fun hideBottomNav() {
+        navView.visibility = View.GONE
     }
 }

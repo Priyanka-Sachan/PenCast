@@ -1,22 +1,19 @@
-package com.example.pencast.me
+package com.example.pencast.ui.me
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.example.pencast.R
 import com.example.pencast.login.User
-import com.example.pencast.ui.aboutMe.AboutMeFragment
-import com.example.pencast.ui.follower.FollowerFragment
-import com.example.pencast.ui.latestMessage.LatestMessageFragment
-import com.example.pencast.ui.profile.ProfileFragment
+import com.example.pencast.ui.me.MeFragmentDirections
+import com.example.pencast.ui.me.aboutMe.AboutMeFragment
+import com.example.pencast.ui.me.latestMessage.LatestMessageFragment
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.auth.FirebaseAuth
 
 
 class MeFragment : Fragment() {

@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.pencast.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_note"
+        android:name="com.example.pencast.ui.note.NoteFragment"
+        android:label="Note"
+        tools:layout="@layout/fragment_note" />
 
     <fragment
         android:id="@+id/navigation_chat"
@@ -57,12 +57,12 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_latest_message"
-        android:name="com.example.pencast.ui.latestMessage.LatestMessageFragment"
+        android:name="com.example.pencast.ui.me.latestMessage.LatestMessageFragment"
         android:label="Latest Message"
         tools:layout="@layout/fragment_latest_message" />
     <fragment
         android:id="@+id/navigation_me"
-        android:name="com.example.pencast.me.MeFragment"
+        android:name="com.example.pencast.ui.me.MeFragment"
         android:label="ME"
         tools:layout="@layout/fragment_me">
         <action
@@ -74,5 +74,14 @@
         <action
             android:id="@+id/action_navigation_me_to_navigation_profile"
             app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_note_list"
+        android:name="com.example.pencast.ui.noteList.NoteListFragment"
+        android:label="Note List"
+        tools:layout="@layout/fragment_note_list">
+        <action
+            android:id="@+id/action_navigation_note_list_to_navigation_note"
+            app:destination="@id/navigation_note" />
     </fragment>
 </navigation>

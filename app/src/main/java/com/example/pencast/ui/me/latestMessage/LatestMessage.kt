@@ -1,4 +1,4 @@
-package com.example.pencast.ui.latestMessage
+package com.example.pencast.ui.me.latestMessage
 
 data class LatestMessage(
     var uid: String,

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 import com.example.pencast.login.User
-import com.example.pencast.ui.latestMessage.LatestMessage
+import com.example.pencast.ui.me.latestMessage.LatestMessage
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*

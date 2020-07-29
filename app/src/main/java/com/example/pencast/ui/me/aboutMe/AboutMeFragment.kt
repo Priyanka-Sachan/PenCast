@@ -1,4 +1,4 @@
-package com.example.pencast.ui.aboutMe
+package com.example.pencast.ui.me.aboutMe
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

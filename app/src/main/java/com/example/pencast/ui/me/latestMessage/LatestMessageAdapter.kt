@@ -1,4 +1,4 @@
-package com.example.pencast.ui.latestMessage
+package com.example.pencast.ui.me.latestMessage
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,10 +9,14 @@ import com.example.pencast.databinding.CardLatestMessageBinding
 
 class LatestMessageAdapter(private val latestMessageClickListener: LatestMessageClickListener) :
     ListAdapter<LatestMessage,
-            LatestMessageAdapter.ViewHolder>(LatestMessageDiffCallback()) {
+            LatestMessageAdapter.ViewHolder>(
+        LatestMessageDiffCallback()
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(
+            parent
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -33,7 +37,9 @@ class LatestMessageAdapter(private val latestMessageClickListener: LatestMessage
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = CardLatestMessageBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+                return ViewHolder(
+                    binding
+                )
             }
         }
     }

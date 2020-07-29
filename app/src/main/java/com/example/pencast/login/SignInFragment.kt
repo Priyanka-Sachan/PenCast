@@ -21,6 +21,9 @@ class SignInFragment : Fragment() {
 
     lateinit var binding: FragmentSignInBinding
 
+    private lateinit var database: DatabaseReference
+    private lateinit var userSignInListener: ValueEventListener
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +35,11 @@ class SignInFragment : Fragment() {
             false
         )
         binding.signInButton.setOnClickListener {
+            binding.signInLoading.visibility = View.VISIBLE
+            binding.signInButton.isEnabled = false
+            binding.signInEmail.isEnabled = false
+            binding.signInPassword.isEnabled = false
+            binding.actionSignUp.isEnabled = false
             signInUser()
         }
         binding.actionSignUp.setOnClickListener {
@@ -57,9 +65,9 @@ class SignInFragment : Fragment() {
                         "SignUpFragment",
                         "User signed in successfully: ${it.result?.user?.uid}"
                     )
-                val database = FirebaseDatabase.getInstance()
+                database = FirebaseDatabase.getInstance()
                     .getReference("/Users/${FirebaseAuth.getInstance().uid}")
-                database.addValueEventListener(object : ValueEventListener {
+                userSignInListener = database.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         val user = dataSnapshot.getValue(User::class.java)!!
 
@@ -73,7 +81,8 @@ class SignInFragment : Fragment() {
                         sharedPreferenceEditor.apply()
 
                         val intent = Intent(activity, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                     }
 
@@ -89,11 +98,24 @@ class SignInFragment : Fragment() {
 
             }
             .addOnFailureListener {
-                Toast.makeText(
-                    activity,
-                    "Failed to sign in user: ${it.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (activity != null) {
+                    binding.signInLoading.visibility = View.GONE
+                    binding.signInButton.isEnabled = true
+                    binding.signInEmail.isEnabled = true
+                    binding.signInPassword.isEnabled = true
+                    binding.actionSignUp.isEnabled = true
+                    Toast.makeText(
+                        activity,
+                        "Failed to sign in user: ${it.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        database.removeEventListener(userSignInListener)
+        Log.e("SignInFragment", "Destroyed event listener")
     }
 }
