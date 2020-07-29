@@ -6,16 +6,24 @@
     <data>
 
         <variable
-            name="article"
+            name="feed"
             type="com.example.pencast.ui.article.Article" />
+
+        <variable
+            name="feedClickListener"
+            type="com.example.pencast.ui.feed.FeedClickListener" />
+
+        <variable
+            name="isFavouriteClickListener"
+            type="com.example.pencast.ui.feed.FeedClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:layout_marginVertical="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardUseCompatPadding="true">
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="12dp"
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,7 +31,7 @@
 
             <ImageView
                 android:id="@+id/feed_image"
-                imageUrl="@{article.imageUrl}"
+                imageUrl="@{feed.imageUrl}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="50dp"
@@ -37,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:maxWidth="400dp"
-                android:text="@{article.title}"
+                android:text="@{feed.title}"
                 android:textColor="@android:color/white"
                 android:textSize="32sp"
                 app:layout_constraintLeft_toLeftOf="@id/feed_image"
@@ -50,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="90dp"
                 android:gravity="end"
-                android:text="@{article.subTitle}"
+                android:text="@{feed.subTitle}"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@id/feed_navigate_to_article"
@@ -64,6 +72,7 @@
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginVertical="30dp"
+                android:onClick="@{()->feedClickListener.onClick(feed)}"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_more"
                 app:layout_constraintBottom_toBottomOf="@id/feed_image"
@@ -83,10 +92,10 @@
                     android:drawableStart="@drawable/ic_favourite"
                     android:drawableTint="@android:color/white"
                     android:gravity="center"
-                    android:outlineProvider="paddedBounds"
+                    android:onClick="@{()->isFavouriteClickListener.onClick(feed)}"
                     android:paddingHorizontal="32dp"
                     android:src="@drawable/ic_search"
-                    android:text="@{}"
+                    android:text="I LOVE IT"
                     android:textColor="@android:color/white"
                     tools:text="456" />
 

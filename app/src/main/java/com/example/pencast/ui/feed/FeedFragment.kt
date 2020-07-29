@@ -1,31 +1,51 @@
 package com.example.pencast.ui.feed
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.pencast.R
 
 class FeedFragment : Fragment() {
 
-    private lateinit var homeViewModel: FeedViewModel
+    private lateinit var feedViewModel: FeedViewModel
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-                ViewModelProvider(this).get(FeedViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_feed, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        feedViewModel =
+            ViewModelProvider(this).get(FeedViewModel::class.java)
+        val view = inflater.inflate(R.layout.fragment_feed, container, false)
+        val feedRecyclerView: RecyclerView = view.findViewById(R.id.feed_recycler_view)
+        val feedAdapter = FeedAdapter(FeedClickListener {
+            Toast.makeText(context, "Move to article clicked", Toast.LENGTH_SHORT).show()
+            Log.e("tag","feed clicked")
+        }, FeedClickListener {
+            Toast.makeText(context, "Is now interested", Toast.LENGTH_SHORT).show()
+            Log.e("tag","favourite clicked")
         })
-        return root
+        feedRecyclerView.adapter = feedAdapter
+
+        feedViewModel.feeds.observe(viewLifecycleOwner, Observer {
+            feedAdapter.submitList(it)
+        })
+
+        val newArticle =
+            view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
+                R.id.create_new_article
+            )
+        newArticle.setOnClickListener {
+            findNavController().navigate(R.id.navigation_add_article)
+        }
+        return view
     }
 }
