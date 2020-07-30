@@ -9,7 +9,8 @@ import com.google.firebase.database.*
 class FeedViewModel : ViewModel() {
 
     private var childEventListener: ChildEventListener? = null
-    private var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("Articles")
+    private var database: DatabaseReference =
+        FirebaseDatabase.getInstance().getReference("Articles")
 
     private var _feeds = MutableLiveData<List<Article>>()
     val feeds: LiveData<List<Article>>
@@ -42,5 +43,7 @@ class FeedViewModel : ViewModel() {
         }
     }
 
-
+    fun isFavourite(article: Article) {
+        database.child(article.articleId).child("favouriteOf").setValue(article.favouriteOf + 1)
+    }
 }

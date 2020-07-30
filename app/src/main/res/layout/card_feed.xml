@@ -85,6 +85,7 @@
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <androidx.appcompat.widget.AppCompatButton
+                    longToString="@{feed.favouriteOf}"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -93,13 +94,13 @@
                     android:drawableTint="@android:color/white"
                     android:gravity="center"
                     android:onClick="@{()->isFavouriteClickListener.onClick(feed)}"
-                    android:paddingHorizontal="32dp"
+                    android:paddingHorizontal="56dp"
                     android:src="@drawable/ic_search"
-                    android:text="I LOVE IT"
                     android:textColor="@android:color/white"
                     tools:text="456" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    shareArticle="@{feed}"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -107,7 +108,7 @@
                     android:drawableStart="@drawable/ic_share"
                     android:drawableTint="@android:color/white"
                     android:gravity="center"
-                    android:paddingHorizontal="32dp"
+                    android:paddingHorizontal="56dp"
                     android:src="@drawable/ic_search"
                     android:text="Share"
                     android:textColor="@android:color/white" />

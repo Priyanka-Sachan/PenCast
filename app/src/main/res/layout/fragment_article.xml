@@ -8,91 +8,120 @@
     <data>
 
         <variable
-            name="article"
-            type="com.example.pencast.ui.article.Article" />
+            name="articleViewModel"
+            type="com.example.pencast.ui.article.ArticleViewModel" />
     </data>
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/article_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp">
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/app_bar"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:fitsSystemWindows="true"
-                android:theme="@style/AppTheme.AppBarOverlay">
-
-                <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:id="@+id/toolbar_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    app:contentScrim="?attr/colorPrimary"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    app:toolbarId="@+id/toolbar">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/article_image"
-                            imageUrl="@{article.imageUrl}"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:tint="#99000000"
-                            tools:src="@drawable/ic_no_internet_connection" />
-
-                        <TextView
-                            android:id="@+id/article_date"
-                            timeStampShort="@{article.edited}"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="8dp"
-                            android:textColor="@android:color/white"
-                            android:textSize="16sp"
-                            app:layout_constraintBottom_toTopOf="@id/article_title"
-                            tools:text="Published at 23 July,2020" />
-
-                        <TextView
-                            android:id="@+id/article_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:text="@{article.title}"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            android:textSize="32sp"
-                            app:layout_constraintBottom_toBottomOf="@id/article_image"
-                            tools:text="NO Internet Conection" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        app:layout_collapseMode="pin"
-                        app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-                </com.google.android.material.appbar.CollapsingToolbarLayout>
-            </com.google.android.material.appbar.AppBarLayout>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@{article.details}"
-            tools:text="Hello pretty little people since there is no internet connection, we willl talk this way.." />
+            android:background="#99000000">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/article_image"
+                imageUrl="@{articleViewModel.article.imageUrl}"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:tint="#99000000"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_no_internet_connection" />
+
+            <TextView
+                android:id="@+id/article_date"
+                timeStampShort="@{articleViewModel.article.edited}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/article_title"
+                tools:text="Published at 23 July,2020" />
+
+            <TextView
+                android:id="@+id/article_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@{articleViewModel.article.title}"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="32sp"
+                app:layout_constraintBottom_toBottomOf="@id/article_image"
+                tools:text="NO Internet Conection" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/article_image">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@{articleViewModel.article.subTitle}"
+                    android:textColor="@android:color/white"
+                    android:textStyle="italic"
+                    tools:text="Here is the subTitle..." />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:text="@{articleViewModel.article.details}"
+                    android:textColor="@android:color/white"
+                    tools:text="Hello pretty little people since there is no internet connection, we will talk this way.." />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginVertical="16dp"
+                    android:background="@drawable/rounded_card_more"
+                    android:backgroundTint="#A1000000"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        imageUrl="@{articleViewModel.article.author.profileImage}"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="4dp"
+                        tools:src="@mipmap/ic_launcher_round" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginHorizontal="4dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@{articleViewModel.article.author.username}"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"
+                            tools:text="Username" />
+
+                        <TextView
+                            timeStampShort="@{articleViewModel.article.edited}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"
+                            tools:text="Edited On" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

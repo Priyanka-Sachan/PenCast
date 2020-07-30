@@ -27,11 +27,9 @@ class FeedFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_feed, container, false)
         val feedRecyclerView: RecyclerView = view.findViewById(R.id.feed_recycler_view)
         val feedAdapter = FeedAdapter(FeedClickListener {
-            Toast.makeText(context, "Move to article clicked", Toast.LENGTH_SHORT).show()
-            Log.e("tag","feed clicked")
+            findNavController().navigate(FeedFragmentDirections.actionNavigationFeedToNavigationArticle(it))
         }, FeedClickListener {
-            Toast.makeText(context, "Is now interested", Toast.LENGTH_SHORT).show()
-            Log.e("tag","favourite clicked")
+           feedViewModel.isFavourite(it)
         })
         feedRecyclerView.adapter = feedAdapter
 
