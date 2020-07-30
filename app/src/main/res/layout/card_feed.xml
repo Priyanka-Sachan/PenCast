@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="feed"
+            type="com.example.pencast.ui.article.Article" />
+
+        <variable
+            name="feedClickListener"
+            type="com.example.pencast.ui.feed.FeedClickListener" />
+
+        <variable
+            name="isFavouriteClickListener"
+            type="com.example.pencast.ui.feed.FeedClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="12dp"
+        app:cardCornerRadius="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/feed_image"
+                imageUrl="@{feed.imageUrl}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="50dp"
+                android:scaleType="centerCrop"
+                android:tint="#99000000"
+                tools:src="@drawable/ic_no_internet_connection" />
+
+            <TextView
+                android:id="@+id/feed_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:maxWidth="400dp"
+                android:text="@{feed.title}"
+                android:textColor="@android:color/white"
+                android:textSize="32sp"
+                app:layout_constraintLeft_toLeftOf="@id/feed_image"
+                app:layout_constraintTop_toTopOf="@id/feed_image"
+                tools:text="No Internet Connection...How??" />
+
+            <TextView
+                android:id="@+id/feed_sub_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="90dp"
+                android:gravity="end"
+                android:text="@{feed.subTitle}"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/feed_navigate_to_article"
+                app:layout_constraintRight_toLeftOf="@id/feed_navigate_to_article"
+                app:layout_constraintTop_toTopOf="@id/feed_navigate_to_article"
+                tools:text="Read more to find out.." />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/feed_navigate_to_article"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="20dp"
+                android:onClick="@{()->feedClickListener.onClick(feed)}"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_more"
+                app:layout_constraintBottom_toBottomOf="@id/feed_image"
+                app:layout_constraintRight_toRightOf="@id/feed_image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    longToString="@{feed.favouriteOf}"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#99000000"
+                    android:drawableStart="@drawable/ic_favourite"
+                    android:drawableTint="@android:color/white"
+                    android:gravity="center"
+                    android:onClick="@{()->isFavouriteClickListener.onClick(feed)}"
+                    android:paddingHorizontal="56dp"
+                    android:src="@drawable/ic_search"
+                    android:textColor="@android:color/white"
+                    tools:text="456" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    shareArticle="@{feed}"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#99000000"
+                    android:drawableStart="@drawable/ic_share"
+                    android:drawableTint="@android:color/white"
+                    android:gravity="center"
+                    android:paddingHorizontal="56dp"
+                    android:src="@drawable/ic_search"
+                    android:text="Share"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>

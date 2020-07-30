@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import androidx.core.content.ContextCompat
+import com.google.firebase.database.FirebaseDatabase
 
 class App : Application() {
     companion object {
@@ -15,6 +16,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     private fun createNotificationChannel() {

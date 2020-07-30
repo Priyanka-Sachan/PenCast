@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_note_list, R.id.navigation_me
+                R.id.navigation_feed, R.id.navigation_note_list, R.id.navigation_me
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -45,8 +45,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_chat -> hideBottomNav()
                 R.id.navigation_note -> hideBottomNav()
                 R.id.navigation_note_list -> hideBottomNav()
+                R.id.navigation_add_article -> hideBottomNav()
                 R.id.navigation_follower -> hideBottomNav()
-                else -> showBottomNav()
+                R.id.navigation_article -> {
+                    hideBottomNav()
+                    supportActionBar!!.hide()
+                }
+                else -> {
+                    showBottomNav()
+                    supportActionBar!!.show()
+                }
             }
         }
     }

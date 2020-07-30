@@ -3,13 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_feed">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.pencast.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_feed"
+        android:name="com.example.pencast.ui.feed.FeedFragment"
+        android:label="Feed"
+        tools:layout="@layout/fragment_feed">
+        <action
+            android:id="@+id/action_navigation_feed_to_navigation_add_article"
+            app:destination="@id/navigation_add_article" />
+        <action
+            android:id="@+id/action_navigation_feed_to_navigation_add_article2"
+            app:destination="@id/navigation_add_article" />
+        <action
+            android:id="@+id/action_navigation_feed_to_navigation_article"
+            app:destination="@id/navigation_article" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_note"
@@ -83,5 +94,29 @@
         <action
             android:id="@+id/action_navigation_note_list_to_navigation_note"
             app:destination="@id/navigation_note" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_add_article"
+        android:name="com.example.pencast.ui.addArticle.AddArticleFragment"
+        android:label="Add Article"
+        tools:layout="@layout/fragment_add_article" >
+        <action
+            android:id="@+id/action_navigation_add_article_to_navigation_article"
+            app:destination="@id/navigation_article" />
+        <action
+            android:id="@+id/action_navigation_add_article_to_navigation_article2"
+            app:destination="@id/navigation_article" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_article"
+        android:name="com.example.pencast.ui.article.ArticleFragment"
+        android:label="Article"
+        tools:layout="@layout/fragment_article" >
+        <argument
+            android:name="article"
+            app:argType="com.example.pencast.ui.article.Article" />
+        <action
+            android:id="@+id/action_navigation_article_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
     </fragment>
 </navigation>
