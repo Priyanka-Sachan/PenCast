@@ -71,7 +71,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginVertical="30dp"
+                android:layout_marginVertical="20dp"
                 android:onClick="@{()->feedClickListener.onClick(feed)}"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_more"

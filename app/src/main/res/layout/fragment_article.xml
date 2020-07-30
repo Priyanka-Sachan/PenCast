@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#99000000">
+            android:background="#B3000000">
 
             <ImageView
                 android:id="@+id/article_image"
@@ -37,9 +37,10 @@
                 timeStampShort="@{articleViewModel.article.edited}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="8dp"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/alegreya_sans_medium"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@id/article_title"
                 tools:text="Published at 23 July,2020" />
 
@@ -47,13 +48,16 @@
                 android:id="@+id/article_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/alegreya_sans_medium"
+                android:paddingTop="4dp"
+                android:paddingBottom="16dp"
                 android:text="@{articleViewModel.article.title}"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="32sp"
                 app:layout_constraintBottom_toBottomOf="@id/article_image"
-                tools:text="NO Internet Conection" />
+                tools:text="NO Internet Connection" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,28 +68,45 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:fontFamily="@font/alegreya_sans_medium"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
                     android:text="@{articleViewModel.article.subTitle}"
                     android:textColor="@android:color/white"
+                    android:textSize="24sp"
                     android:textStyle="italic"
                     tools:text="Here is the subTitle..." />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="2dp"
+                    android:background="@android:color/white" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/alegreya_sans_medium"
                     android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
                     android:text="@{articleViewModel.article.details}"
                     android:textColor="@android:color/white"
+                    android:textSize="20sp"
                     tools:text="Hello pretty little people since there is no internet connection, we will talk this way.." />
 
                 <LinearLayout
+                    android:id="@+id/article_author_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="4dp"
-                    android:layout_marginVertical="16dp"
+                    android:layout_marginVertical="8dp"
                     android:background="@drawable/rounded_card_more"
-                    android:backgroundTint="#A1000000"
+                    android:backgroundTint="#99000000"
+                    android:backgroundTintMode="src_over"
                     android:orientation="horizontal">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -106,17 +127,20 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/alegreya_sans_medium"
                             android:text="@{articleViewModel.article.author.username}"
                             android:textColor="@android:color/white"
-                            android:textSize="12sp"
+                            android:textSize="16sp"
                             tools:text="Username" />
 
                         <TextView
-                            timeStampShort="@{articleViewModel.article.edited}"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:fontFamily="@font/alegreya_sans_medium"
+                            android:maxLines="1"
+                            android:text="@{articleViewModel.article.author.status}"
                             android:textColor="@android:color/white"
-                            android:textSize="12sp"
+                            android:textSize="16sp"
                             tools:text="Edited On" />
                     </LinearLayout>
                 </LinearLayout>

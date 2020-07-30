@@ -1,18 +1,31 @@
 package com.example.pencast.ui.addArticle
 
 import android.app.Application
+import android.net.Uri
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
+import com.example.pencast.R
 import com.example.pencast.login.User
 import com.example.pencast.ui.article.Article
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 
 class AddArticleViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("/Articles")
+    private var database: DatabaseReference =
+        FirebaseDatabase.getInstance().getReference("/Articles")
 
     private var user: User
+
+    private var _navigateToArticle = MutableLiveData<Article>()
+    val navigateToArticle: LiveData<Article>
+        get() = _navigateToArticle
 
     init {
         val sharedPreferences =
@@ -29,10 +42,52 @@ class AddArticleViewModel(application: Application) : AndroidViewModel(applicati
             )
     }
 
-    fun submitArticle(title: String, subTitle: String, details: String, imageUrl: String) {
+    private fun uploadProfileImage(selectedPhotoUri: Uri?, articleId: String): String? {
+        var imageUrl: String? = null
+        val storage = FirebaseStorage.getInstance().getReference("/articles/${articleId}")
+        if (selectedPhotoUri != null) {
+            storage.putFile(selectedPhotoUri)
+                .addOnSuccessListener {
+                    storage.downloadUrl.addOnSuccessListener {
+                        imageUrl = it.toString()
+                        Log.e("Viden", imageUrl)
+                    }.addOnFailureListener {
+                        Log.e("AddArticleViewModel", it.message)
+                    }
+                }
+        }
+        return imageUrl
+    }
+
+    fun submitArticle(title: String, subTitle: String, details: String, selectedPhotoUri: Uri?) {
         val timeStamp = System.currentTimeMillis()
         val articleId = "${user.uid}@$timeStamp"
-        val article = Article(articleId, title, subTitle, user, details, imageUrl, timeStamp, 0)
-        database.child(articleId).setValue(article)
+        val storage = FirebaseStorage.getInstance().getReference("/articles/${articleId}")
+        if (selectedPhotoUri != null) {
+            storage.putFile(selectedPhotoUri)
+                .addOnSuccessListener {
+                    storage.downloadUrl.addOnSuccessListener {
+                        val article = Article(
+                            articleId,
+                            title,
+                            subTitle,
+                            user,
+                            details,
+                            it.toString(),
+                            timeStamp,
+                            0
+                        )
+                        database.child(articleId).setValue(article)
+                        _navigateToArticle.value = article
+                    }.addOnFailureListener {
+                        Log.e("AddArticleViewModel", it.message)
+                        Toast.makeText(
+                            getApplication(),
+                            "Your selected image has not uploaded successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+        }
     }
 }

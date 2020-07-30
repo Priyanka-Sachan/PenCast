@@ -45,8 +45,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_chat -> hideBottomNav()
                 R.id.navigation_note -> hideBottomNav()
                 R.id.navigation_note_list -> hideBottomNav()
+                R.id.navigation_add_article -> hideBottomNav()
                 R.id.navigation_follower -> hideBottomNav()
-                R.id.navigation_article-> {
+                R.id.navigation_article -> {
                     hideBottomNav()
                     supportActionBar!!.hide()
                 }

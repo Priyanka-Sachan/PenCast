@@ -9,11 +9,11 @@ data class Article(
     var articleId: String,
     var title: String,
     var subTitle: String,
-    var author: User? = null,
+    var author: User,
     var details: String,
     var imageUrl: String,
     var edited: Long,
     var favouriteOf: Long
 ) : Parcelable {
-    constructor() : this("", "", "", null, "", "", 0, 0)
+    constructor() : this("", "", "", User("", "", "", ""), "", "", 0, 0)
 }

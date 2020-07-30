@@ -99,7 +99,14 @@
         android:id="@+id/navigation_add_article"
         android:name="com.example.pencast.ui.addArticle.AddArticleFragment"
         android:label="Add Article"
-        tools:layout="@layout/fragment_add_article" />
+        tools:layout="@layout/fragment_add_article" >
+        <action
+            android:id="@+id/action_navigation_add_article_to_navigation_article"
+            app:destination="@id/navigation_article" />
+        <action
+            android:id="@+id/action_navigation_add_article_to_navigation_article2"
+            app:destination="@id/navigation_article" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_article"
         android:name="com.example.pencast.ui.article.ArticleFragment"
@@ -108,5 +115,8 @@
         <argument
             android:name="article"
             app:argType="com.example.pencast.ui.article.Article" />
+        <action
+            android:id="@+id/action_navigation_article_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
     </fragment>
 </navigation>
