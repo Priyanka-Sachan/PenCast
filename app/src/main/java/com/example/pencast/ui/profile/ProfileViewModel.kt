@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 
+
 class ProfileViewModel(var application: Application, var profile: User) : ViewModel() {
 
     private var database: DatabaseReference =
@@ -25,8 +26,31 @@ class ProfileViewModel(var application: Application, var profile: User) : ViewMo
     val user: LiveData<User>
         get() = _user
 
+    private var _status = MutableLiveData<Int>()
+    val status: LiveData<Int>
+        get() = _status
+
     init {
+        _status.value = 0
         _user.value = profile
+        checkUserStatus()
+    }
+
+    private fun checkUserStatus() {
+        if (profile.uid == uid)
+            _status.value = 2
+        else {
+            database.child("$uid/follower")
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {}
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        _status.value = if (snapshot.hasChild(profile.uid))
+                            1
+                        else
+                            0
+                    }
+                })
+        }
     }
 
     fun attachDatabaseListener() {

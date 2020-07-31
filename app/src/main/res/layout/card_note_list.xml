@@ -33,15 +33,15 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:text="@{note.title}"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 tools:text="Title" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="5"
+                android:maxLines="15"
                 android:text="@{note.text}"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 tools:text="All the content" />
         </LinearLayout>
 

@@ -1,8 +1,11 @@
 package com.example.pencast.ui.note
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = "notes_table")
 data class Note(
     @PrimaryKey
@@ -11,4 +14,6 @@ data class Note(
     var text: String,
     var isSynced: Boolean,
     var lastUpdated: Long
-)
+) : Parcelable {
+    constructor() : this(0, "", "", false, 0)
+}

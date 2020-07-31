@@ -1,6 +1,7 @@
 package com.example.pencast
 
 import android.content.Intent
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -59,21 +60,8 @@ fun shareArticle(button: androidx.appcompat.widget.AppCompatButton, article: Art
     }
 }
 
-@BindingAdapter("toolbarBackground")
-fun toolbarBackground(
-    toolbar: com.google.android.material.appbar.CollapsingToolbarLayout,
-    imgUrl: String
-) {
-//    var imgView:ImageView
-//    imgUrl?.let {
-//        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
-//        Glide.with(toolbar.context)
-//            .load(imgUri)
-//            .apply(
-//                RequestOptions()
-//                    .placeholder(R.drawable.loading_animation)
-//                    .error(R.drawable.ic_broken_image)
-//            )
-//            .into(imgView)
-//    }
+@BindingAdapter("safeText")
+fun safeText(editText: com.google.android.material.textfield.TextInputEditText, text: String) {
+    if (text.isNotEmpty())
+        editText.setText(text)
 }

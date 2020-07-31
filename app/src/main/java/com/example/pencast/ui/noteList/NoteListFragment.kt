@@ -12,8 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pencast.R
 import com.example.pencast.database.NoteDatabase
-import com.example.pencast.ui.note.NoteViewModel
-import com.example.pencast.ui.note.NoteViewModelFactory
+import com.example.pencast.ui.note.Note
 import kotlinx.coroutines.InternalCoroutinesApi
 
 class NoteListFragment : Fragment() {
@@ -38,7 +37,11 @@ class NoteListFragment : Fragment() {
             ViewModelProvider(this, noteListViewModelFactory).get(NoteListViewModel::class.java)
 
         val noteListAdapter = NoteListAdapter(NoteClickListener {
-            Toast.makeText(activity, "Note clicked:${it.title}", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(
+                NoteListFragmentDirections.actionNavigationNoteListToNavigationNote(
+                    it
+                )
+            )
         })
         val noteRecyclerView = view.findViewById<RecyclerView>(R.id.note_recycler_view)
         noteRecyclerView.adapter = noteListAdapter
@@ -70,7 +73,17 @@ class NoteListFragment : Fragment() {
         val newNote: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.new_note)
         newNote.setOnClickListener {
-            findNavController().navigate(R.id.navigation_note)
+            findNavController().navigate(
+                NoteListFragmentDirections.actionNavigationNoteListToNavigationNote(
+                    Note(
+                        0,
+                        "",
+                        "",
+                        false,
+                        0
+                    )
+                )
+            )
         }
         return view
     }

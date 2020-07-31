@@ -28,9 +28,10 @@ class NoteFragment : Fragment() {
 
         binding = FragmentNoteBinding.inflate(inflater)
 
+        val args = NoteFragmentArgs.fromBundle(requireArguments())
         val application = requireNotNull(this.activity).application
         val dataSource = NoteDatabase.getInstance(application).noteDao
-        val noteViewModelFactory = NoteViewModelFactory(dataSource, application)
+        val noteViewModelFactory = NoteViewModelFactory(args.note, dataSource, application)
         noteViewModel =
             ViewModelProvider(this, noteViewModelFactory).get(NoteViewModel::class.java)
         binding.noteViewModel = noteViewModel
@@ -40,8 +41,12 @@ class NoteFragment : Fragment() {
             if (binding.noteTitle.text.toString()
                     .isNotEmpty() && binding.noteContent.text.toString().isNotEmpty()
             ) {
+                val noteId: Long = if (args.note.noteId == 0L)
+                    System.currentTimeMillis()
+                else
+                    args.note.noteId
                 val note = Note(
-                    System.currentTimeMillis(),
+                    noteId,
                     binding.noteTitle.text.toString(),
                     binding.noteContent.text.toString(),
                     false,
@@ -51,9 +56,13 @@ class NoteFragment : Fragment() {
             }
         }
 
-//        noteViewModel.navigateToNoteList.observe(viewLifecycleOwner, Observer {
-//            findNavController().popBackStack(R.id.navigation_note_list, false)
-//        })
+        noteViewModel.navigateToNoteList.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                Toast.makeText(activity, "Your note has been saved.", Toast.LENGTH_SHORT).show()
+                noteViewModel.doneNavigating()
+                findNavController().navigate(R.id.navigation_note_list)
+            }
+        })
 
         binding.noteBottomAppBar.setNavigationOnClickListener {
             Toast.makeText(context, "Navigation clicked", Toast.LENGTH_SHORT).show()
