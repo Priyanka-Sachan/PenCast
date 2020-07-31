@@ -1,13 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.me.aboutMe.AboutMeFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ABOUT ME" />
+    <data>
 
-</FrameLayout>
+        <variable
+            name="aboutMeViewModel"
+            type="com.example.pencast.ui.me.aboutMe.AboutMeViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:id="@+id/about_me_image"
+                imageUrl="@{aboutMeViewModel.user.profileImage}"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="16dp"
+                android:scaleType="centerCrop"
+                android:tint="#99000000"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_no_internet_connection" />
+
+            <TextView
+                android:id="@+id/about_me_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_horizontal"
+                android:text="@{aboutMeViewModel.user.username}"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/about_me_image"
+                tools:text="Username" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="16dp"
+                app:layout_constraintTop_toBottomOf="@id/about_me_image">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="Articles Written by you"
+                    android:textColor="@android:color/white" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@android:color/white" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/about_me_article_work_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="4dp"
+                    android:layout_marginStart="0dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/card_about_me_article" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="Favourite Articles"
+                    android:textColor="@android:color/white" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@android:color/white" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/about_me_article_interested_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="4dp"
+                    android:layout_marginStart="0dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/card_about_me_article" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
