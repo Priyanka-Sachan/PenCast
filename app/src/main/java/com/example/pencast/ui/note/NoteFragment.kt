@@ -49,6 +49,7 @@ class NoteFragment : Fragment() {
                     noteId,
                     binding.noteTitle.text.toString(),
                     binding.noteContent.text.toString(),
+                    0,
                     false,
                     System.currentTimeMillis()
                 )

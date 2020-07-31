@@ -66,6 +66,15 @@
                     android:layout_marginEnd="32dp"
                     android:background="@android:color/white" />
 
+                <ImageView
+                    android:id="@+id/empty_article_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="4dp"
+                    android:layout_marginStart="0dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_empty_message_list" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/about_me_article_work_recycler_view"
                     android:layout_width="match_parent"
@@ -73,6 +82,7 @@
                     android:layout_margin="4dp"
                     android:layout_marginStart="0dp"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/card_about_me_article" />
 
@@ -90,6 +100,15 @@
                     android:layout_marginEnd="32dp"
                     android:background="@android:color/white" />
 
+                <ImageView
+                    android:id="@+id/empty_interested_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="4dp"
+                    android:layout_marginStart="0dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_empty_message_list" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/about_me_article_interested_recycler_view"
                     android:layout_width="match_parent"
@@ -97,6 +116,7 @@
                     android:layout_margin="4dp"
                     android:layout_marginStart="0dp"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/card_about_me_article" />
 

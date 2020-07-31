@@ -65,3 +65,11 @@ fun safeText(editText: com.google.android.material.textfield.TextInputEditText, 
     if (text.isNotEmpty())
         editText.setText(text)
 }
+
+@BindingAdapter("isSelected")
+fun isSelected(cardView: TextView, isSelected: Boolean) {
+    if (isSelected)
+        cardView.text = "Selected"
+    else
+        cardView.text = "Not selected"
+}

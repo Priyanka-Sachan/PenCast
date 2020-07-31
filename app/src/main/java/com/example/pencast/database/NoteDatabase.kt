@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.pencast.ui.note.Note
 import kotlinx.coroutines.InternalCoroutinesApi
 
-@Database(entities = [Note::class], version = 1)
+@Database(entities = [Note::class], version = 2)
 abstract class NoteDatabase : RoomDatabase() {
     abstract val noteDao: NoteDao
     //companion object so that we can use its methods without instancing the class

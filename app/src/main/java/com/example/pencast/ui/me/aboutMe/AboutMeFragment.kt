@@ -30,6 +30,8 @@ class AboutMeFragment : Fragment() {
         binding.aboutMeViewModel = aboutMeViewModel
 
         val aboutMeArticleWorkAdapter = ArticleInfoAdapter(ArticleInfoClickListener {
+            binding.emptyArticleList.visibility = View.GONE
+            binding.aboutMeArticleWorkRecyclerView.visibility = View.VISIBLE
             aboutMeViewModel.getArticle(it.articleId)
         })
         binding.aboutMeArticleWorkRecyclerView.adapter = aboutMeArticleWorkAdapter
@@ -38,6 +40,8 @@ class AboutMeFragment : Fragment() {
         })
 
         val aboutMeArticleInterestedAdapter = ArticleInfoAdapter(ArticleInfoClickListener {
+            binding.emptyInterestedList.visibility = View.GONE
+            binding.aboutMeArticleInterestedRecyclerView.visibility = View.VISIBLE
             aboutMeViewModel.getArticle(it.articleId)
 
         })

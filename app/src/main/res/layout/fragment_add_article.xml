@@ -85,6 +85,14 @@
                 android:text="SUBMIT ARTICLE"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
+            <ImageView
+                android:id="@+id/add_article_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#99ffffff"
+                android:src="@drawable/loading_animation"
+                android:visibility="gone" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

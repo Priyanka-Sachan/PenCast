@@ -9,17 +9,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import com.example.pencast.R
 import com.example.pencast.database.NoteDatabase
+import com.example.pencast.databinding.FragmentNoteListBinding
 import com.example.pencast.ui.note.Note
 import kotlinx.coroutines.InternalCoroutinesApi
 
 class NoteListFragment : Fragment() {
 
-    private lateinit var noteListViewModel: NoteListViewModel
+    private lateinit var binding: FragmentNoteListBinding
 
-    private lateinit var bottomAppBar: com.google.android.material.bottomappbar.BottomAppBar
+    private lateinit var noteListViewModel: NoteListViewModel
 
     @InternalCoroutinesApi
     override fun onCreateView(
@@ -28,7 +31,7 @@ class NoteListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_note_list, container, false)
+        binding = FragmentNoteListBinding.inflate(inflater)
 
         val application = requireNotNull(this.activity).application
         val dataSource = NoteDatabase.getInstance(application).noteDao
@@ -43,23 +46,46 @@ class NoteListFragment : Fragment() {
                 )
             )
         })
-        val noteRecyclerView = view.findViewById<RecyclerView>(R.id.note_recycler_view)
-        noteRecyclerView.adapter = noteListAdapter
+
+        binding.noteRecyclerView.adapter = noteListAdapter
+        val selectionTracker = SelectionTracker.Builder(
+            "notes-selection",
+            binding.noteRecyclerView,
+            NoteKeyProvider(noteListAdapter),
+            MyItemDetailsLookup(binding.noteRecyclerView),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(
+            SelectionPredicates.createSelectAnything()
+        ).build()
+        noteListAdapter.tracker = selectionTracker
 
         noteListViewModel.noteList.observe(viewLifecycleOwner, Observer {
             noteListAdapter.submitList(it)
         })
 
-        bottomAppBar = view.findViewById(R.id.note_list_bottom_app_bar)
+        var selectedNotesList = ArrayList<Note>()
+        selectionTracker.addObserver(
+            object : SelectionTracker.SelectionObserver<Long>() {
+                override fun onSelectionChanged() {
+                    super.onSelectionChanged()
+                    val list = ArrayList<Note>()
+                    selectionTracker.selection.forEach {
+                        list.add(noteListViewModel.getNote(it))
+                    }
+                    selectedNotesList = list
+                }
+            })
 
-        bottomAppBar.setNavigationOnClickListener {
+        binding.noteListBottomAppBar.setNavigationOnClickListener {
             Toast.makeText(context, "Navigation clicked", Toast.LENGTH_SHORT).show()
         }
 
-        bottomAppBar.setOnMenuItemClickListener { menuItem ->
+        binding.noteListBottomAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.note_list_delete -> {
-                    Toast.makeText(context, "Delete clicked", Toast.LENGTH_SHORT).show()
+                    selectedNotesList.forEach {
+                        noteListViewModel.deleteNote(it)
+                    }
                     true
                 }
                 R.id.note_list_search -> {
@@ -70,21 +96,20 @@ class NoteListFragment : Fragment() {
             }
         }
 
-        val newNote: com.google.android.material.floatingactionbutton.FloatingActionButton =
-            view.findViewById(R.id.new_note)
-        newNote.setOnClickListener {
+        binding.newNote.setOnClickListener {
             findNavController().navigate(
                 NoteListFragmentDirections.actionNavigationNoteListToNavigationNote(
                     Note(
                         0,
                         "",
                         "",
+                        0,
                         false,
                         0
                     )
                 )
             )
         }
-        return view
+        return binding.root
     }
 }

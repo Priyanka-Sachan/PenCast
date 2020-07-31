@@ -18,7 +18,7 @@ class NoteViewModel(var oldNote: Note, var database: NoteDao, var application: A
     val navigateToNoteList: LiveData<Boolean>
         get() = _navigateToNoteList
 
-    private var _note = Note(0, " ", " ", false, 0)
+    private var _note = Note(0, " ", " ",0, false, 0)
     val note: Note?
         get() = _note
 
