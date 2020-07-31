@@ -23,7 +23,11 @@
         android:id="@+id/navigation_note"
         android:name="com.example.pencast.ui.note.NoteFragment"
         android:label="Note"
-        tools:layout="@layout/fragment_note" />
+        tools:layout="@layout/fragment_note" >
+        <argument
+            android:name="note"
+            app:argType="com.example.pencast.ui.note.Note" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_chat"
@@ -53,6 +57,9 @@
         <argument
             android:name="profile"
             app:argType="com.example.pencast.login.User" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_chat"
+            app:destination="@id/navigation_chat" />
     </fragment>
 
     <fragment

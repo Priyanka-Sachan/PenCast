@@ -10,7 +10,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ImageView
@@ -70,8 +70,10 @@
                     android:id="@+id/add_article_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="top"
                     android:hint="CONTENT"
                     android:inputType="textMultiLine"
+                    android:minHeight="150dp"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 

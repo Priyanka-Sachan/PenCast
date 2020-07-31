@@ -10,12 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.pencast.R
 import com.example.pencast.databinding.FragmentProfileBinding
 import com.example.pencast.login.User
-import com.google.firebase.auth.FirebaseAuth
 
 class ProfileFragment : Fragment() {
 
@@ -46,25 +47,46 @@ class ProfileFragment : Fragment() {
         binding.profileViewModel = profileViewModel
         binding.lifecycleOwner = this
 
-        if (profile.uid == FirebaseAuth.getInstance().uid)
-            userView()
-        else
-            othersView()
+        othersView()
+
+        profileViewModel.status.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                0 -> othersView()
+                1 -> followersView()
+                2 -> userView()
+            }
+        })
 
         return binding.root
     }
 
+
     private fun othersView() {
-        binding.authEditStatus.visibility = View.INVISIBLE
-        binding.authPickImage.visibility = View.INVISIBLE
         binding.profileFollow.visibility = View.VISIBLE
 
         binding.profileFollow.setOnClickListener {
             profileViewModel.addUserToFollow(profile)
+            followersView()
+        }
+    }
+
+    private fun followersView() {
+        binding.profileFollow.visibility = View.GONE
+        binding.profileChat.visibility = View.VISIBLE
+        binding.profileChat.setOnClickListener {
+            findNavController().navigate(
+                ProfileFragmentDirections.actionNavigationProfileToNavigationChat(
+                    profile
+                )
+            )
         }
     }
 
     private fun userView() {
+
+        binding.authPickImage.visibility = View.VISIBLE
+        binding.authEditStatus.visibility = View.VISIBLE
+        binding.profileFollow.visibility = View.GONE
 
         profileViewModel.attachDatabaseListener()
 
