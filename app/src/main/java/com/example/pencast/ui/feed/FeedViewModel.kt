@@ -4,13 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pencast.ui.article.Article
+import com.example.pencast.ui.article.ArticleInfo
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class FeedViewModel : ViewModel() {
 
     private var childEventListener: ChildEventListener? = null
-    private var database: DatabaseReference =
+    private var articleDatabase: DatabaseReference =
         FirebaseDatabase.getInstance().getReference("Articles")
+    private var usersDatabase: DatabaseReference =
+        FirebaseDatabase.getInstance().getReference("Users")
 
     private var _feeds = MutableLiveData<List<Article>>()
     val feeds: LiveData<List<Article>>
@@ -39,11 +43,15 @@ class FeedViewModel : ViewModel() {
                 override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
                 override fun onCancelled(databaseError: DatabaseError) {}
             }
-            database.addChildEventListener(childEventListener as ChildEventListener)
+            articleDatabase.addChildEventListener(childEventListener as ChildEventListener)
         }
     }
 
     fun isFavourite(article: Article) {
-        database.child(article.articleId).child("favouriteOf").setValue(article.favouriteOf + 1)
+        articleDatabase.child(article.articleId).child("favouriteOf")
+            .setValue(article.favouriteOf + 1)
+        usersDatabase.child(FirebaseAuth.getInstance().uid.toString()).child("favourites")
+            .child(article.articleId)
+            .setValue(ArticleInfo(article.articleId, article.title, article.imageUrl))
     }
 }
