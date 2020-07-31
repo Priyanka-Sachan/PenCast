@@ -10,8 +10,12 @@
         android:id="@+id/note_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:orientation="vertical"
         android:paddingBottom="100dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:spanCount="2"
+        tools:listitem="@layout/card_note_list" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/note_list_bottom_app_bar"
