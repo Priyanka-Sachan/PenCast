@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="articleInfo"
+            type="com.example.pencast.ui.article.ArticleInfo" />
+
+        <variable
+            name="articleInfoClickListener"
+            type="com.example.pencast.ui.me.aboutMe.ArticleInfoClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="150dp"
+        android:layout_height="250dp"
+        android:background="@color/colorPrimary"
+        android:onClick="@{()->articleInfoClickListener.onClick(articleInfo)}">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/about_me_article_image_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
+            app:cardCornerRadius="4dp">
+
+            <ImageView
+                android:id="@+id/about_me_article_image"
+                imageUrl="@{articleInfo.imageUrl}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_no_internet_connection" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/about_me_article_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@{articleInfo.title}"
+            android:textColor="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/about_me_article_image_layout"
+            tools:text="Title" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,13 +1,16 @@
 package com.example.pencast.ui.me.aboutMe
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.pencast.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.pencast.databinding.FragmentAboutMeBinding
 
 class AboutMeFragment : Fragment() {
+
+    private lateinit var binding: FragmentAboutMeBinding
 
     companion object {
         fun newInstance() =
@@ -18,7 +21,10 @@ class AboutMeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_about_me, container, false)
+
+        binding = FragmentAboutMeBinding.inflate(inflater)
+        val aboutMeViewModel=ViewModelProvider(this).get(AboutMeViewModel::class.java)
+        return binding.root
     }
 
 }

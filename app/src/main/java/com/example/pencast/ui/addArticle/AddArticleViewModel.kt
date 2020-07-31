@@ -8,18 +8,20 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
-import com.example.pencast.R
 import com.example.pencast.login.User
 import com.example.pencast.ui.article.Article
-import com.google.firebase.auth.FirebaseAuth
+import com.example.pencast.ui.article.ArticleInfo
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
 class AddArticleViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var database: DatabaseReference =
+    private var articleDatabase: DatabaseReference =
         FirebaseDatabase.getInstance().getReference("/Articles")
+
+    private var userDatabase: DatabaseReference =
+        FirebaseDatabase.getInstance().getReference("/Users")
 
     private var user: User
 
@@ -42,23 +44,6 @@ class AddArticleViewModel(application: Application) : AndroidViewModel(applicati
             )
     }
 
-    private fun uploadProfileImage(selectedPhotoUri: Uri?, articleId: String): String? {
-        var imageUrl: String? = null
-        val storage = FirebaseStorage.getInstance().getReference("/articles/${articleId}")
-        if (selectedPhotoUri != null) {
-            storage.putFile(selectedPhotoUri)
-                .addOnSuccessListener {
-                    storage.downloadUrl.addOnSuccessListener {
-                        imageUrl = it.toString()
-                        Log.e("Viden", imageUrl)
-                    }.addOnFailureListener {
-                        Log.e("AddArticleViewModel", it.message)
-                    }
-                }
-        }
-        return imageUrl
-    }
-
     fun submitArticle(title: String, subTitle: String, details: String, selectedPhotoUri: Uri?) {
         val timeStamp = System.currentTimeMillis()
         val articleId = "${user.uid}@$timeStamp"
@@ -77,7 +62,19 @@ class AddArticleViewModel(application: Application) : AndroidViewModel(applicati
                             timeStamp,
                             0
                         )
-                        database.child(articleId).setValue(article)
+                        articleDatabase.child(articleId).setValue(article)
+                        userDatabase.child(user.uid).child("articles").child(articleId).setValue(
+                            ArticleInfo(
+                                article.articleId,
+                                article.title,
+                                article.imageUrl
+                            )
+                        )
+                        Toast.makeText(
+                            getApplication(),
+                            "Your article has been successfully submitted.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         _navigateToArticle.value = article
                     }.addOnFailureListener {
                         Log.e("AddArticleViewModel", it.message)

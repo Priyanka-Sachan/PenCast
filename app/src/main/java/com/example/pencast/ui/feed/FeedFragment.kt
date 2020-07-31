@@ -38,7 +38,7 @@ class FeedFragment : Fragment() {
         })
 
         val newArticle =
-            view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
+            view.findViewById<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton>(
                 R.id.create_new_article
             )
         newArticle.setOnClickListener {
