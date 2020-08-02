@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/quicksand</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">

@@ -28,8 +28,9 @@ class FeedFragment : Fragment() {
         val feedRecyclerView: RecyclerView = view.findViewById(R.id.feed_recycler_view)
         val feedAdapter = FeedAdapter(FeedClickListener {
             findNavController().navigate(FeedFragmentDirections.actionNavigationFeedToNavigationArticle(it))
-        }, FeedClickListener {
+        }, FavouriteFeedClickListener {
            feedViewModel.isFavourite(it)
+
         })
         feedRecyclerView.adapter = feedAdapter
 

@@ -15,7 +15,7 @@
 
         <variable
             name="isFavouriteClickListener"
-            type="com.example.pencast.ui.feed.FeedClickListener" />
+            type="com.example.pencast.ui.feed.FavouriteFeedClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView

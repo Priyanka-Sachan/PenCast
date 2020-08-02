@@ -16,7 +16,11 @@ class NoteListViewModel(var database: NoteDao, var application: Application) : V
     val noteList: LiveData<List<Note>>
         get() = _noteList
 
-    lateinit var currentNote: Note
+    private var currentNote: Note
+
+    init {
+        currentNote = Note(0, "", "", 0, false, 0)
+    }
 
     fun getNote(noteId: Long): Note {
         uiScope.launch {
