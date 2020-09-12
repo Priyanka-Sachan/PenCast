@@ -30,20 +30,32 @@ class AboutMeFragment : Fragment() {
         binding.aboutMeViewModel = aboutMeViewModel
 
         val aboutMeArticleWorkAdapter = ArticleInfoAdapter(ArticleInfoClickListener {
+            binding.emptyArticleList.visibility = View.GONE
+            binding.aboutMeArticleWorkRecyclerView.visibility = View.VISIBLE
             aboutMeViewModel.getArticle(it.articleId)
         })
         binding.aboutMeArticleWorkRecyclerView.adapter = aboutMeArticleWorkAdapter
         aboutMeViewModel.articleWorkList.observe(viewLifecycleOwner, Observer {
-            aboutMeArticleWorkAdapter.submitList(it)
+            if(it.isNotEmpty()) {
+                binding.aboutMeArticleWorkRecyclerView.visibility = View.VISIBLE
+                binding.emptyArticleList.visibility = View.GONE
+                aboutMeArticleWorkAdapter.submitList(it)
+            }
         })
 
         val aboutMeArticleInterestedAdapter = ArticleInfoAdapter(ArticleInfoClickListener {
+            binding.emptyInterestedList.visibility = View.GONE
+            binding.aboutMeArticleInterestedRecyclerView.visibility = View.VISIBLE
             aboutMeViewModel.getArticle(it.articleId)
 
         })
         binding.aboutMeArticleInterestedRecyclerView.adapter = aboutMeArticleInterestedAdapter
         aboutMeViewModel.articleInterestedList.observe(viewLifecycleOwner, Observer {
-            aboutMeArticleInterestedAdapter.submitList(it)
+            if(it.isNotEmpty()) {
+                binding.aboutMeArticleInterestedRecyclerView.visibility=View.VISIBLE
+                binding.emptyInterestedList.visibility=View.GONE
+                aboutMeArticleInterestedAdapter.submitList(it)
+            }
         })
 
         aboutMeViewModel.article.observe(viewLifecycleOwner, Observer {

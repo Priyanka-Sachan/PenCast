@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,13 +40,16 @@ class AddArticleFragment : Fragment() {
                 selectedPhotoUri != null &&
                 binding.addArticleTitle.text?.isNotEmpty() == true &&
                 binding.addArticleSubTitle.text?.isNotEmpty() == true
-            )
+            ) {
+                binding.addArticleLoading.visibility = View.VISIBLE
                 addArticleViewModel.submitArticle(
                     binding.addArticleTitle.text.toString(),
                     binding.addArticleSubTitle.text.toString(),
                     binding.addArticleDetails.text.toString(),
                     selectedPhotoUri
                 )
+            } else
+                Toast.makeText(activity, "Please fill all fields", Toast.LENGTH_SHORT).show()
         }
 
         binding.addArticleImage.setOnClickListener {
@@ -55,6 +59,7 @@ class AddArticleFragment : Fragment() {
         }
 
         addArticleViewModel.navigateToArticle.observe(viewLifecycleOwner, Observer {
+            binding.addArticleLoading.visibility = View.VISIBLE
             findNavController().navigate(
                 AddArticleFragmentDirections.actionNavigationAddArticleToNavigationArticle(
                     it

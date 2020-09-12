@@ -12,12 +12,17 @@
         <variable
             name="noteClickListener"
             type="com.example.pencast.ui.noteList.NoteClickListener" />
+
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/note_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
         android:onClick="@{()->noteClickListener.onClick(note)}"
+        app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true">
@@ -43,7 +48,18 @@
                 android:text="@{note.text}"
                 android:textSize="16sp"
                 tools:text="All the content" />
+
         </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/is_selected"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_done"
+            android:tint="@color/colorPrimaryDark"
+            android:visibility="gone" />
 
     </androidx.cardview.widget.CardView>
 </layout>

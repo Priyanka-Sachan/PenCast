@@ -10,7 +10,7 @@ import com.example.pencast.ui.article.Article
 
 class FeedAdapter(
     private val feedClickListener: FeedClickListener,
-    private val isFavouriteClickListener: FeedClickListener
+    private val isFavouriteClickListener: FavouriteFeedClickListener
 ) :
     ListAdapter<Article,
             FeedAdapter.ViewHolder>(
@@ -33,7 +33,7 @@ class FeedAdapter(
 
         fun bind(
             feedClickListener: FeedClickListener,
-            isFavouriteClickListener: FeedClickListener,
+            isFavouriteClickListener: FavouriteFeedClickListener,
             item: Article
         ) {
             binding.feed = item
@@ -66,6 +66,10 @@ class FeedDiffCallback : DiffUtil.ItemCallback<Article>() {
 
 class FeedClickListener(val feedClickListener: (feed: Article) -> Unit) {
     fun onClick(feed: Article) = feedClickListener(feed)
+}
+
+class FavouriteFeedClickListener(val favouriteFeedClickListener: (feed: Article) -> Unit) {
+    fun onClick(feed: Article) = favouriteFeedClickListener(feed)
 }
 
 

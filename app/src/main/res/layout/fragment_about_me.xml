@@ -66,10 +66,38 @@
                     android:layout_marginEnd="32dp"
                     android:background="@android:color/white" />
 
+                <LinearLayout
+                    android:id="@+id/empty_article_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="4dp"
+                    android:layout_marginStart="0dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="bottom|center_horizontal"
+                        android:text="\\ (O_o) / "
+                        android:textColor="@android:color/white"
+                        android:textSize="64sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="top|center_horizontal"
+                        android:text="No articles written by you yet.."
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/about_me_article_work_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
+                    android:visibility="gone"
                     android:layout_margin="4dp"
                     android:layout_marginStart="0dp"
                     android:orientation="horizontal"
@@ -90,11 +118,39 @@
                     android:layout_marginEnd="32dp"
                     android:background="@android:color/white" />
 
+                <LinearLayout
+                    android:id="@+id/empty_interested_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="4dp"
+                    android:layout_marginStart="0dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="bottom|center_horizontal"
+                        android:text="\\ (O_o) / "
+                        android:textColor="@android:color/white"
+                        android:textSize="64sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="top|center_horizontal"
+                        android:text="No articles favourited by you yet.."
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/about_me_article_interested_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_margin="4dp"
+                    android:visibility="gone"
                     android:layout_marginStart="0dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
